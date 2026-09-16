@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>好物推薦 — Fay太太｜餐桌與日常</title>
+<meta name="description" content="廚房裡真的每天在用的東西">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header id="header"></header>
+<div class="announce" id="announce" style="display:none;"></div>
+<div class="wrap">
+  <div class="phead"><h1>好物推薦</h1><p>都是我自己每天在用的，不好用的不會放上來</p></div>
+  <div id="gbGoods"></div>
+  <div class="goods-grid" id="goodsAll" style="margin-top:28px;"></div>
+</div>
+<footer><div class="wrap" id="footer"></div></footer>
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+<script>renderGoods();</script>
+</body>
+</html>

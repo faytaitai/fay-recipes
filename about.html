@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>關於我 — Fay太太｜餐桌與日常</title>
+<meta name="description" content="關於 Fay">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header id="header"></header>
+<div class="announce" id="announce" style="display:none;"></div>
+<div class="wrap">
+  <div class="phead"><h1>關於我</h1></div>
+  <div class="post-body" id="aboutBody"></div>
+</div>
+<footer><div class="wrap" id="footer"></div></footer>
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+<script>renderChrome("about.html"); document.getElementById("aboutBody").innerHTML = `<p>${SITE.介紹}</p><p>影片版都在 <a href="${SITE.IG連結}" target="_blank" rel="noopener" style="color:var(--強調色);border-bottom:1px solid var(--強調色);">${SITE.IG帳號}</a>。</p>`;</script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>蛋白質計算機 — Fay太太｜餐桌與日常</title>
+<meta name="description" content="算出你一天該吃多少蛋白質">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header id="header"></header>
+<div class="announce" id="announce" style="display:none;"></div>
+<div class="wrap">
+  <div class="phead"><h1>蛋白質計算機</h1><p>算出你一天該吃多少蛋白質</p></div>
+
+  <div id="calc" style="margin-top:24px;">
+    <div class="tool-slot">
+      計算機預留位置<br>
+      把你做好的網頁版計算機給我，我會把它嵌進這一區並套上網站配色。
+    </div>
+  </div>
+
+  <div class="phead" style="padding-top:var(--間距-大段);"><h1>順便看看</h1></div>
+  <div class="grid" id="grid"></div>
+</div>
+<footer><div class="wrap" id="footer"></div></footer>
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+<script>
+  renderChrome("tools.html");
+  const 推薦 = PUB().sort(byDate).slice(0,3);
+  if (推薦.length) document.getElementById("grid").innerHTML = 推薦.map(cardHTML).join("");
+  else document.querySelectorAll(".phead")[1].style.display = "none";
+</script>
+</body>
+</html>
