@@ -44,11 +44,18 @@
 <script src="assets/app.js"></script>
 <script>
   renderChrome("tools.html");
-  document.getElementById("notifyForm").addEventListener("submit", e => {
+  document.getElementById("notifyForm").addEventListener("submit", async e => {
     e.preventDefault();
-    const m = document.getElementById("notifyMsg");
-    /* 收信功能尚未接上：SITE.通知表單連結 接好後在這裡送出 */
-    m.textContent = "email 收集功能還在準備中，很快開放，先謝謝你的興趣！";
+    const m = document.getElementById("notifyMsg"), btn = e.target.querySelector("button");
+    if (!SITE.通知網址) { m.textContent = "email 收集功能還在準備中，很快開放，先謝謝你的興趣！"; return; }
+    btn.disabled = true; m.textContent = "送出中…";
+    try {
+      await fetch(SITE.通知網址, { method: "POST", mode: "no-cors",
+        body: new URLSearchParams({ email: document.getElementById("notifyEmail").value.trim() }) });
+      m.textContent = "收到了！計算機做好，我會第一個通知你 ❤️";
+      e.target.reset();
+    } catch { m.textContent = "送出失敗，請稍後再試一次"; }
+    btn.disabled = false;
   });
   const 推薦 = PUB().sort(byDate).slice(0,3);
   if (推薦.length) document.getElementById("grid").innerHTML = 推薦.map(cardHTML).join("");
