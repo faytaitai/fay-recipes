@@ -376,7 +376,7 @@ function renderRecipe(){
         ${r.小技巧 ? `<div class="rd-sec"><div class="fl">小 技 巧</div>
           <div class="tipbox">${tipLines(r.小技巧).map(t => `<p>${esc(t)}</p>`).join("")}</div></div>` : ""}
         <div class="copyrow"><button class="copybtn" data-copy="steptip">${r.小技巧 ? "複製作法與小技巧" : "複製作法"}</button></div>
-        <a class="igbtn" href="${r.Reels連結}" target="_blank" rel="noopener">在 IG 看這支 Reels</a>
+        ${r.Reels連結 ? `<a class="igbtn" href="${r.Reels連結}" target="_blank" rel="noopener">在 IG 看這支 Reels</a>` : ""}
         <button class="igbtn sharebtn" id="sharebtn">分享這道食譜</button>
         ${(r.推薦好物 || []).length ? `<div class="rd-sec"><div class="fl">這 道 用 到 的</div>
           ${r.推薦好物.map(g => `<div class="ing-row"><b>${esc(g.名稱)}</b><a href="${g.連結}" style="color:var(--強調色);">哪裡買 →</a></div>`).join("")}</div>` : ""}
