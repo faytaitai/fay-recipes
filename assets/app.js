@@ -268,8 +268,8 @@ function paint(){
 
   document.getElementById("grid").innerHTML = slice.map(cardHTML).join("")
     || (PUB().length === 0
-        ? `<div class="empty">食譜整理中，很快就會放上來。<br>先到 <a href="${SITE.IG連結}" target="_blank" rel="noopener" style="color:var(--強調色);border-bottom:1px solid var(--強調色);">${esc(SITE.IG帳號 || "Instagram")}</a> 看影片版</div>`
-        : `<div class="empty">這個標籤還沒有食譜</div>`);
+        ? `<div class="empty"><b>食譜整理中</b>很快就會放上來。<br>先到 <a href="${SITE.IG連結}" target="_blank" rel="noopener" style="color:var(--強調色);border-bottom:1px solid var(--強調色);">${esc(SITE.IG帳號 || "Instagram")}</a> 看影片版</div>`
+        : `<div class="empty"><b>這個標籤還沒有食譜</b>換一個標籤看看</div>`);
   document.getElementById("count").textContent =
     list.length ? `共 ${list.length} 道${pages > 1 ? `・第 ${PAGE} / ${pages} 頁` : ""}` : "";
 
@@ -293,7 +293,7 @@ function renderVote(elId){
   if (!el) return;
   if (!v || !v.顯示 || !(v.選項 || []).length) {
     /* 投票頁（data-空白訊息）要留一句話，嵌在其他頁面時整塊隱藏 */
-    if (el.dataset.空白訊息) el.innerHTML = `<div class="empty">${esc(el.dataset.空白訊息)}</div>`;
+    if (el.dataset.空白訊息) el.innerHTML = `<div class="empty"><b>${esc(el.dataset.空白標題 || "")}</b>${esc(el.dataset.空白訊息)}</div>`;
     else el.style.display = "none";
     return;
   }
@@ -432,7 +432,7 @@ function renderGoods(){
   const all好物 = [...SITE.好物, ...extra];
   if (!all好物.length) {
     document.getElementById("goodsAll").innerHTML =
-      `<div class="empty" style="grid-column:1/-1;">好物推薦整理中</div>`;
+      `<div class="empty" style="grid-column:1/-1;"><b>好物推薦整理中</b>我每天真的在用的東西，整理好就放上來。</div>`;
     document.getElementById("gbGoods").innerHTML = groupBuyCard();
     return;
   }
@@ -456,13 +456,13 @@ function renderBlog(){
         <span class="m">${esc(p.發布日期)}・${esc(p.分類 || "")}</span>
       </div>
       <h3>${esc(p.標題)}</h3>
-      <div class="ex">${esc(p.摘要 || "")}</div></a>`).join("") : `<div class="empty">還沒有文章</div>`;
+      <div class="ex">${esc(p.摘要 || "")}</div></a>`).join("") : `<div class="empty"><b>文章還在寫</b>團購說明、料理心得，寫好就放上來。</div>`;
 }
 function renderPost(){
   renderChrome("blog.html");
   const id = new URLSearchParams(location.search).get("id");
   const p = POSTS_PUB().find(x => x.id === id) || POSTS_PUB()[0];
-  if (!p) { document.getElementById("post").innerHTML = `<div class="empty">還沒有文章</div>`; return; }
+  if (!p) { document.getElementById("post").innerHTML = `<div class="empty"><b>找不到這篇文章</b><a href="blog.html" style="color:var(--強調色);border-bottom:1px solid var(--強調色);">回文章列表</a></div>`; return; }
   document.title = `${p.標題} — ${SITE.名稱}`;
   document.getElementById("post").innerHTML = `
     <div class="phead"><h1>${esc(p.標題)}</h1><p>${esc(p.發布日期)}${p.分類 ? "・" + esc(p.分類) : ""}</p></div>

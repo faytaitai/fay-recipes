@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>蛋白質計算機 — Fay太太｜餐桌與日常</title>
+<title>蛋白質計算機 — Fay太太 | 把煮飯變簡單</title>
 <meta name="description" content="算出你一天該吃多少蛋白質">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -13,13 +13,14 @@
 <header id="header"></header>
 <div class="announce" id="announce" style="display:none;"></div>
 <div class="wrap">
-  <div class="phead"><h1>蛋白質計算機</h1><p>算出你一天該吃多少蛋白質</p></div>
+  <div class="phead"><h1>蛋白質計算機</h1><p>這一餐的蛋白質，吃夠了嗎？</p></div>
 
-  <div id="calc" style="margin-top:24px;">
-    <div class="tool-slot">
-      計算機預留位置<br>
-      把你做好的網頁版計算機給我，我會把它嵌進這一區並套上網站配色。
-    </div>
+  <div id="calc" class="soon">
+    <span class="soon-tag">建置中</span>
+    <p>現在的人，尤其常在外面吃飯，很容易不知不覺蛋白質吃不夠。我自己就常常在想：今天的蛋白質，到底吃夠了沒？</p>
+    <p>所以我想做一個蛋白質計算機：輸入這一餐吃了什麼，馬上知道攝取了多少蛋白質，一眼就看懂。</p>
+    <p>還在打磨中。想第一個知道的話，留下 email，做好我會第一個通知你。</p>
+    <a class="soon-btn" id="notifyBtn" target="_blank" rel="noopener" style="display:none;">留下 email，做好通知我</a>
   </div>
 
   <div class="phead" style="padding-top:var(--間距-大段);"><h1>順便看看</h1></div>
@@ -30,6 +31,7 @@
 <script src="assets/app.js"></script>
 <script>
   renderChrome("tools.html");
+  if (SITE.通知表單連結) { const b = document.getElementById("notifyBtn"); b.href = SITE.通知表單連結; b.style.display = "inline-block"; }
   const 推薦 = PUB().sort(byDate).slice(0,3);
   if (推薦.length) document.getElementById("grid").innerHTML = 推薦.map(cardHTML).join("");
   else document.querySelectorAll(".phead")[1].style.display = "none";
