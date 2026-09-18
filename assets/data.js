@@ -40,7 +40,7 @@ const SITE = {
   /* 右上角社群連結：想加 Threads、Pinterest 就照樣往下加一行 */
   社群: [
     { 名稱: "IG", 連結: "https://www.instagram.com/faytaitai/" },
-    { 名稱: "YT", 連結: "https://www.youtube.com/" }
+    { 名稱: "YT", 連結: "https://www.youtube.com/@faytaitai" }
   ],
 
   /* 標籤列順序：這裡列到的排前面，沒列到的自動接在後面。

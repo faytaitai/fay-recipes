@@ -263,11 +263,11 @@ body.nav-open .logo{opacity:0;pointer-events:none;}
 .band.first{margin-top:0;}
 .band.deep{background:#EBDDD5;}
 .band-in{display:grid;gap:var(--間距-組間);align-items:center;}
-.eyebrow{font-size:11px;letter-spacing:3px;color:var(--強調色);}
-.big{font-size:30px;font-weight:var(--標題字重);line-height:1.4;letter-spacing:.5px;
+.eyebrow{font-size:14px;letter-spacing:3px;font-weight:var(--次標字重);color:var(--強調色);}
+.big{font-size:24px;font-weight:var(--標題字重);line-height:1.4;letter-spacing:.5px;
      margin:var(--間距-緊) 0 var(--間距-鬆);}
-.mid{font-size:16px;line-height:2;color:var(--文字色);margin-bottom:var(--間距-鬆);}
-.small{font-size:13px;line-height:2.1;color:var(--次要文字);}
+.mid{font-size:16px;line-height:1.7;color:var(--文字色);margin-bottom:var(--間距-鬆);}
+.small{font-size:14px;line-height:1.75;color:var(--次要文字);}
 .avatar{width:min(260px,68vw);aspect-ratio:1;border-radius:50%;object-fit:cover;margin:0 auto;}
 .band-text{text-align:left;}
 .icon-disc{width:min(240px,64vw);aspect-ratio:1;border-radius:50%;margin:0 auto;background:var(--底色);
@@ -302,13 +302,11 @@ footer .fnav{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;
    ================================================================ */
 @media (min-width:860px){
   .band-in{grid-template-columns:320px 1fr;gap:80px;}
-  .band-in.rev{grid-template-columns:1fr 320px;}
-  .band-in.rev .icon-disc{order:2;}
   .avatar{width:300px;}
   .icon-disc{width:280px;}
-  .big{font-size:40px;}
+  .big{font-size:32px;}
   .mid{font-size:18px;}
-  .small{font-size:14px;}
+  .small{font-size:15px;}
   :root{
     --Logo字級:25px; --頁面大標:32px; --卡片標題字級:18px;
     --頁面左右留白:34px; --間距-組間:60px; --間距-大段:100px; --卡片間距:46px;
