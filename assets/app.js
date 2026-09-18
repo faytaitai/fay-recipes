@@ -355,7 +355,7 @@ function renderRecipe(){
         <div class="rd-head">
           <div class="head-row">
             ${r.系列 ? `<span class="series-tag">${esc(r.系列)}</span>` : ""}
-            <span class="meta-line"><span>${r.料理時間}分鐘</span><span id="servings">${esc(r.份量)}</span></span>
+            <span class="meta-line"><span>${r.料理時間}分鐘</span>${r.份量 ? `<span id="servings">${esc(r.份量)}</span>` : ""}</span>
           </div>
           <h1 class="rd-title">${esc(r.料理名稱)}</h1>
           <div class="rd-desc">${esc(r.介紹 || "")}</div>
@@ -363,7 +363,7 @@ function renderRecipe(){
         <div class="rd-sec sec-solid">
           <div class="fl">材 料</div>
           <div class="qtybar" id="qtybar">
-            <div class="seg"><button data-s="0.5">×0.5</button><button data-s="1" class="on">原份量</button><button data-s="2">×2</button></div>
+            <div class="seg"><button data-s="1" class="on">原份量</button><button data-s="2">×2</button></div>
             <div class="seg"><button data-u="raw" class="on">原始</button><button data-u="metric">公制</button></div>
           </div>
           <div id="ingList"></div>
