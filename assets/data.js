@@ -67,7 +67,7 @@ const SITE = {
   },
 
   /* 計算機頁 email 收集：貼上 Google Apps Script 部署後的 /exec 網址（寫進「蛋白質計算器Wait list」試算表）；留空＝顯示「準備中」 */
-  通知網址: "",
+  通知網址: "https://script.google.com/macros/s/AKfycbxfwwVuqA9UbN0VU5mjSC3w-3N0GRZ3cK_dOx-Ifc0MkH3Sv_TJaJ0-L62MTGJIvHgB/exec",
 
   /* 工具：之後把你做好的計算機檔案放進來，連結改成該頁檔名 */
   工具: [
