@@ -24,6 +24,15 @@ function mediaURL(p){
 }
 
 /* 小技巧：用全形空白或換行分句，每句獨立一行 */
+/* 一支影片有多份食譜時：食材用 { 分組: "名稱" }，步驟／小技巧用 "## 名稱" 開頭的一行當小標題 */
+const isHead = x => typeof x === "string" && x.startsWith("## ");
+const headText = x => x.slice(3).trim();
+const stepsHTML = steps => { let n = 0; return (steps || []).map(x => isHead(x)
+  ? `<div class="grp">${esc(headText(x))}</div>`
+  : `<div class="stp"><span class="sn">${++n}</span><span>${esc(x)}</span></div>`).join(""); };
+const stepsText = steps => { let n = 0; return (steps || []).map(x => isHead(x) ? `\n【${headText(x)}】` : `${++n}. ${x}`).join("\n"); };
+const tipsHTML = t => tipLines(t).map(x => isHead(x) ? `<div class="grp">${esc(headText(x))}</div>` : `<p>${esc(x)}</p>`).join("");
+const tipsText = t => tipLines(t).map(x => isHead(x) ? `\n【${headText(x)}】` : "・" + x).join("\n");
 const tipLines = t => String(t || "").split(/　|\n/).map(x => x.trim()).filter(Boolean);
 
 /* ---------- 影片：YouTube 連結或 mp4 都吃 ---------- */
@@ -114,7 +123,7 @@ function 換算份量(text, 倍數, 公制){
 let QTY = { 倍數: 1, 公制: false };
 function 畫材料(r){
   const el = document.getElementById("ingList");
-  if (el) el.innerHTML = (r.食材 || []).map(i =>
+  if (el) el.innerHTML = (r.食材 || []).map(i => i.分組 ? `<div class="grp">${esc(i.分組)}</div>` :
     `<div class="ing-row"><b>${esc(i.名稱)}</b><span>${esc(換算份量(i.份量, QTY.倍數, QTY.公制))}</span></div>`).join("");
   const sv = document.getElementById("servings");
   if (sv) sv.textContent = 換算份量(r.份量, QTY.倍數, false);
@@ -371,10 +380,10 @@ function renderRecipe(){
         </div>
         <div class="rd-sec">
           <div class="fl">作 法</div>
-          ${(r.步驟 || []).map((s, i) => `<div class="stp"><span class="sn">${i + 1}</span><span>${esc(s)}</span></div>`).join("")}
+          ${stepsHTML(r.步驟)}
         </div>
         ${r.小技巧 ? `<div class="rd-sec"><div class="fl">小 技 巧</div>
-          <div class="tipbox">${tipLines(r.小技巧).map(t => `<p>${esc(t)}</p>`).join("")}</div></div>` : ""}
+          <div class="tipbox">${tipsHTML(r.小技巧)}</div></div>` : ""}
         <div class="copyrow"><button class="copybtn" data-copy="steptip">${r.小技巧 ? "複製作法與小技巧" : "複製作法"}</button></div>
         ${r.Reels連結 ? `<a class="igbtn" href="${r.Reels連結}" target="_blank" rel="noopener">在 IG 看這支 Reels</a>` : ""}
         <button class="igbtn sharebtn" id="sharebtn">分享這道食譜</button>
@@ -408,9 +417,9 @@ function bindCopy(r){
   /* 注意：文字要在「按下的當下」才算，才會跟著目前的倍數／單位模式 */
   const 取文字 = key => ({
     ing: `${r.料理名稱}｜購物清單${QTY.倍數 !== 1 ? `（${QTY.倍數} 倍份量）` : ""}\n`
-         + (r.食材 || []).map(i => `・${i.名稱} ${換算份量(i.份量, QTY.倍數, QTY.公制)}`).join("\n"),
-    steptip: `${r.料理名稱}｜作法\n` + (r.步驟 || []).map((s, i) => `${i + 1}. ${s}`).join("\n")
-             + (r.小技巧 ? `\n\n小技巧\n${tipLines(r.小技巧).map(t => "・" + t).join("\n")}` : "")
+         + (r.食材 || []).map(i => i.分組 ? `\n【${i.分組}】` : `・${i.名稱} ${換算份量(i.份量, QTY.倍數, QTY.公制)}`).join("\n"),
+    steptip: `${r.料理名稱}｜作法\n` + stepsText(r.步驟)
+             + (r.小技巧 ? `\n\n小技巧\n${tipsText(r.小技巧)}` : "")
   })[key];
 
   document.querySelectorAll(".copybtn").forEach(b => {
