@@ -245,6 +245,7 @@ body.nav-open .logo{opacity:0;pointer-events:none;}
 .stp .sn{color:var(--強調色);flex-shrink:0;font-weight:var(--次標字重);}
 .tipbox{background:var(--區塊底色);padding:16px 18px;font-size:13px;color:var(--次要文字);
         line-height:1.95;border-radius:var(--圓角);}
+.tipbox p + p{margin-top:var(--間距-緊);}
 .backlink{display:inline-block;font-size:12px;letter-spacing:2px;color:var(--淡文字);
           margin-top:var(--間距-組間);}
 .backlink:hover{color:var(--強調色);}

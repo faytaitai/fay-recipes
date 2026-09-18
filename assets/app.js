@@ -23,6 +23,9 @@ function mediaURL(p){
   return base.replace(/\/+$/, "") + "/" + s.replace(/^\/+/, "");
 }
 
+/* 小技巧：用全形空白或換行分句，每句獨立一行 */
+const tipLines = t => String(t || "").split(/　|\n/).map(x => x.trim()).filter(Boolean);
+
 /* ---------- 影片：YouTube 連結或 mp4 都吃 ---------- */
 function ytId(u){
   const m = String(u).match(/(?:shorts\/|watch\?v=|youtu\.be\/|embed\/)([A-Za-z0-9_-]{6,})/);
@@ -371,7 +374,7 @@ function renderRecipe(){
           ${(r.步驟 || []).map((s, i) => `<div class="stp"><span class="sn">${i + 1}</span><span>${esc(s)}</span></div>`).join("")}
         </div>
         ${r.小技巧 ? `<div class="rd-sec"><div class="fl">小 技 巧</div>
-          <div class="tipbox">${esc(r.小技巧)}</div></div>` : ""}
+          <div class="tipbox">${tipLines(r.小技巧).map(t => `<p>${esc(t)}</p>`).join("")}</div></div>` : ""}
         <div class="copyrow"><button class="copybtn" data-copy="steptip">${r.小技巧 ? "複製作法與小技巧" : "複製作法"}</button></div>
         <a class="igbtn" href="${r.Reels連結}" target="_blank" rel="noopener">在 IG 看這支 Reels</a>
         <button class="igbtn sharebtn" id="sharebtn">分享這道食譜</button>
@@ -407,7 +410,7 @@ function bindCopy(r){
     ing: `${r.料理名稱}｜購物清單${QTY.倍數 !== 1 ? `（${QTY.倍數} 倍份量）` : ""}\n`
          + (r.食材 || []).map(i => `・${i.名稱} ${換算份量(i.份量, QTY.倍數, QTY.公制)}`).join("\n"),
     steptip: `${r.料理名稱}｜作法\n` + (r.步驟 || []).map((s, i) => `${i + 1}. ${s}`).join("\n")
-             + (r.小技巧 ? `\n\n小技巧\n${r.小技巧}` : "")
+             + (r.小技巧 ? `\n\n小技巧\n${tipLines(r.小技巧).map(t => "・" + t).join("\n")}` : "")
   })[key];
 
   document.querySelectorAll(".copybtn").forEach(b => {
