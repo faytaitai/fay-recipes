@@ -181,7 +181,7 @@ body.nav-open .logo{opacity:0;pointer-events:none;}
 .rd-video{display:block;margin:0 auto;max-width:100%;max-height:52vh;background:#000;border-radius:var(--圓角);}
 .ph-video{width:100%;aspect-ratio:9/16;max-height:52vh;background:#141414;display:flex;
           align-items:center;justify-content:center;color:#8a8a8a;font-size:12px;text-align:center;line-height:2;}
-.yt{width:100%;aspect-ratio:9/16;max-height:52vh;background:#000;}
+.yt{display:block;width:100%;aspect-ratio:9/16;border:0;background:#000;}
 
 .series-tag{display:inline-block;font-size:10.5px;letter-spacing:2.5px;color:var(--強調色);
             border:1px solid var(--強調色);padding:5px 12px;}
