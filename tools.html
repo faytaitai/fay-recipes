@@ -12,17 +12,30 @@
 <body>
 <header id="header"></header>
 <div class="announce" id="announce" style="display:none;"></div>
-<div class="wrap">
-  <div class="phead"><h1>蛋白質計算機</h1><p>這一餐的蛋白質，吃夠了嗎？</p></div>
-
-  <div id="calc" class="soon">
-    <span class="soon-tag">建置中</span>
-    <p>現在的人，尤其常在外面吃飯，很容易不知不覺蛋白質吃不夠。我自己就常常在想：今天的蛋白質，到底吃夠了沒？</p>
-    <p>所以我想做一個蛋白質計算機：輸入這一餐吃了什麼，馬上知道攝取了多少蛋白質，一眼就看懂。</p>
-    <p>還在打磨中。想第一個知道的話，留下 email，做好我會第一個通知你。</p>
-    <a class="soon-btn" id="notifyBtn" target="_blank" rel="noopener" style="display:none;">留下 email，做好通知我</a>
+<section class="band deep first">
+  <div class="wrap band-in rev">
+    <div class="icon-disc" aria-hidden="true">
+      <svg viewBox="0 0 100 100" fill="none" stroke="#C0553F" stroke-width="5" stroke-linecap="round">
+        <circle cx="50" cy="50" r="38" stroke="#E7DFD9"/>
+        <path d="M50 12 A38 38 0 1 1 15 66"/>
+        <text x="50" y="58" text-anchor="middle" font-size="26" font-weight="700" fill="#1F1D1B" stroke="none" font-family="Outfit,sans-serif">g</text>
+      </svg>
+    </div>
+    <div class="band-text">
+      <div class="eyebrow">PROTEIN CALCULATOR · 建置中</div>
+      <h1 class="big">這一餐的蛋白質，<br>吃夠了嗎？</h1>
+      <p class="mid">在外面吃飯，很容易不知不覺蛋白質吃不夠。我自己就常常在想：今天的蛋白質，到底吃夠了沒？</p>
+      <p class="small">所以我想做一個蛋白質計算機：輸入這一餐吃了什麼，馬上知道攝取了多少蛋白質，一眼就看懂。還在打磨中，想第一個知道的話，留下 email，做好我會第一個通知你。</p>
+      <form class="notify-form" id="notifyForm">
+        <input type="email" id="notifyEmail" placeholder="你的 email" required aria-label="email">
+        <button type="submit">通知我</button>
+      </form>
+      <div class="notify-msg" id="notifyMsg"></div>
+    </div>
   </div>
+</section>
 
+<div class="wrap">
   <div class="phead" style="padding-top:var(--間距-大段);"><h1>順便看看</h1></div>
   <div class="grid" id="grid"></div>
 </div>
@@ -31,7 +44,12 @@
 <script src="assets/app.js"></script>
 <script>
   renderChrome("tools.html");
-  if (SITE.通知表單連結) { const b = document.getElementById("notifyBtn"); b.href = SITE.通知表單連結; b.style.display = "inline-block"; }
+  document.getElementById("notifyForm").addEventListener("submit", e => {
+    e.preventDefault();
+    const m = document.getElementById("notifyMsg");
+    /* 收信功能尚未接上：SITE.通知表單連結 接好後在這裡送出 */
+    m.textContent = "email 收集功能還在準備中，很快開放，先謝謝你的興趣！";
+  });
   const 推薦 = PUB().sort(byDate).slice(0,3);
   if (推薦.length) document.getElementById("grid").innerHTML = 推薦.map(cardHTML).join("");
   else document.querySelectorAll(".phead")[1].style.display = "none";

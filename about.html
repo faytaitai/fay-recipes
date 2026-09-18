@@ -12,13 +12,21 @@
 <body>
 <header id="header"></header>
 <div class="announce" id="announce" style="display:none;"></div>
-<div class="wrap">
-  <div class="phead"><h1>關於我</h1></div>
-  <div class="post-body" id="aboutBody"></div>
-</div>
+<section class="band first">
+  <div class="wrap band-in">
+    <img class="avatar" src="media/fay-about.jpg" alt="Fay">
+    <div class="band-text">
+      <div class="eyebrow">ABOUT ME</div>
+      <h1 class="big">Hi, 我是 Fay。<br>兩個孩子的媽</h1>
+      <p class="mid">從什麼都很方便的台北，搬到舊金山。<br>從三餐外食，到現在幾乎三餐都自己煮。</p>
+      <p class="small">這裡收集了我拍過的食譜，還有我覺得好用的東西。<br>另外最近在建置一個蛋白質計算機，等做好放上來。</p>
+      <p class="small" style="margin-top:var(--間距-鬆);">影片版都在 <a id="igLink" class="tl" target="_blank" rel="noopener"></a></p>
+    </div>
+  </div>
+</section>
 <footer><div class="wrap" id="footer"></div></footer>
 <script src="assets/data.js"></script>
 <script src="assets/app.js"></script>
-<script>renderChrome("about.html"); document.getElementById("aboutBody").innerHTML = `<p>${SITE.介紹}</p><p>影片版都在 <a href="${SITE.IG連結}" target="_blank" rel="noopener" class="tl">${SITE.IG帳號}</a></p>`;</script>
+<script>renderChrome("about.html"); const ig = document.getElementById("igLink"); ig.href = SITE.IG連結; ig.textContent = SITE.IG帳號;</script>
 </body>
 </html>

@@ -257,6 +257,30 @@ body.nav-open .logo{opacity:0;pointer-events:none;}
 .post-body p{margin-bottom:var(--間距-鬆);}
 .post-body img{width:100%;margin:var(--間距-鬆) 0;border-radius:var(--圓角);}
 
+
+/* ---------- 滿版色塊區（每個區塊換底色，不換整頁底色）---------- */
+.band{background:var(--區塊底色);padding:var(--間距-組間) 0;margin-top:var(--間距-組間);}
+.band.first{margin-top:0;}
+.band.deep{background:#EBDDD5;}
+.band-in{display:grid;gap:var(--間距-組間);align-items:center;}
+.eyebrow{font-size:11px;letter-spacing:3px;color:var(--強調色);}
+.big{font-size:30px;font-weight:var(--標題字重);line-height:1.4;letter-spacing:.5px;
+     margin:var(--間距-緊) 0 var(--間距-鬆);}
+.mid{font-size:16px;line-height:2;color:var(--文字色);margin-bottom:var(--間距-鬆);}
+.small{font-size:13px;line-height:2.1;color:var(--次要文字);}
+.avatar{width:min(260px,68vw);aspect-ratio:1;border-radius:50%;object-fit:cover;margin:0 auto;}
+.band-text{text-align:left;}
+.icon-disc{width:min(240px,64vw);aspect-ratio:1;border-radius:50%;margin:0 auto;background:var(--底色);
+           display:flex;align-items:center;justify-content:center;}
+.icon-disc svg{width:62%;height:62%;}
+.notify-form{display:flex;margin-top:var(--間距-鬆);max-width:460px;}
+.notify-form input{flex:1;min-width:0;font:inherit;font-size:14px;padding:13px 16px;border:1px solid var(--線色);
+                   border-right:0;background:var(--底色);color:var(--文字色);border-radius:0;outline:none;}
+.notify-form input:focus{border-color:var(--文字色);}
+.notify-form button{font:inherit;font-size:13.5px;letter-spacing:1.5px;padding:13px 22px;border:0;cursor:pointer;
+                    background:var(--文字色);color:var(--底色);white-space:nowrap;border-radius:0;}
+.notify-msg{font-size:12.5px;color:var(--強調色);margin-top:var(--間距-緊);min-height:1.8em;}
+
 /* ---------- 工具頁 ---------- */
 .tool-slot{border:1px dashed var(--線色);padding:var(--間距-組間) 20px;text-align:center;
            color:var(--淡文字);font-size:12.5px;line-height:2;}
@@ -277,6 +301,14 @@ footer .fnav{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;
    電腦／平板（≥860px）
    ================================================================ */
 @media (min-width:860px){
+  .band-in{grid-template-columns:320px 1fr;gap:80px;}
+  .band-in.rev{grid-template-columns:1fr 320px;}
+  .band-in.rev .icon-disc{order:2;}
+  .avatar{width:300px;}
+  .icon-disc{width:280px;}
+  .big{font-size:40px;}
+  .mid{font-size:18px;}
+  .small{font-size:14px;}
   :root{
     --Logo字級:25px; --頁面大標:32px; --卡片標題字級:18px;
     --頁面左右留白:34px; --間距-組間:60px; --間距-大段:100px; --卡片間距:46px;
