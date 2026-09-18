@@ -4,7 +4,8 @@ const PUB = () => RECIPES.filter(r => r.狀態 === "已發布");
 const POSTS_PUB = () => (typeof POSTS !== "undefined" ? POSTS : []).filter(p => p.狀態 === "已發布");
 const img = r => mediaURL(r.封面圖) || r.similar_圖 || "";
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
-const byDate = (a, b) => String(b.發布日期 || "").localeCompare(String(a.發布日期 || ""));
+/* 有填「排序」數字的食譜排最前面（小的在前），其餘依發布日期新到舊 */
+const byDate = (a, b) => ((a.排序 ?? 999) - (b.排序 ?? 999)) || String(b.發布日期 || "").localeCompare(String(a.發布日期 || ""));
 const PER_PAGE = 12;
 
 /* 每道菜的標籤 = 情境 + 工具（自動產生，dashboard 分類改了這裡就跟著變）*/
@@ -28,9 +29,9 @@ function mediaURL(p){
 const isHead = x => typeof x === "string" && x.startsWith("## ");
 const headText = x => x.slice(3).trim();
 const stepsHTML = steps => { let n = 0; return (steps || []).map(x => isHead(x)
-  ? `<div class="grp">${esc(headText(x))}</div>`
+  ? (n = 0, `<div class="grp">${esc(headText(x))}</div>`)
   : `<div class="stp"><span class="sn">${++n}</span><span>${esc(x)}</span></div>`).join(""); };
-const stepsText = steps => { let n = 0; return (steps || []).map(x => isHead(x) ? `\n【${headText(x)}】` : `${++n}. ${x}`).join("\n"); };
+const stepsText = steps => { let n = 0; return (steps || []).map(x => isHead(x) ? (n = 0, `\n【${headText(x)}】`) : `${++n}. ${x}`).join("\n"); };
 const tipsHTML = t => tipLines(t).map(x => isHead(x) ? `<div class="grp">${esc(headText(x))}</div>` : `<p>${esc(x)}</p>`).join("");
 const tipsText = t => tipLines(t).map(x => isHead(x) ? `\n【${headText(x)}】` : "・" + x).join("\n");
 const tipLines = t => String(t || "").split(/　|\n/).map(x => x.trim()).filter(Boolean);
