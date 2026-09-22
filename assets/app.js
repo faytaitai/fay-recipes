@@ -234,7 +234,7 @@ function groupBuyCard(){
 }
 
 function cardHTML(r){
-  return `<a class="card" href="recipe.html?id=${r.id}">
+  return `<a class="card" href="recipe-${r.id}.html">
     <div class="card-media">
       <img class="ph" src="${img(r)}" alt="${esc(r.料理名稱)}" loading="lazy" onerror="this.style.opacity=.15">
       <span class="m">${r.料理時間}分鐘・${esc((r.料理工具 || []).join("・"))}</span>
@@ -345,20 +345,15 @@ async function showResults(el){
   });
 }
 
-/* ---------- 食譜內頁 ---------- */
-function renderRecipe(){
-  renderChrome("index.html");
-  const id = new URLSearchParams(location.search).get("id");
-  const r = PUB().find(x => x.id === id) || PUB()[0];
-  if (!r) {
-    document.getElementById("rd").innerHTML =
-      `<div class="empty">找不到這道食譜。<br><a href="index.html" style="color:var(--強調色);border-bottom:1px solid var(--強調色);">回食譜列表</a></div>`;
-    return;
-  }
-  document.title = `${r.料理名稱} — ${SITE.名稱}`;
-  const others = PUB().filter(x => x.id !== r.id).sort(byDate).slice(0, 3);
-
-  document.getElementById("rd").innerHTML = `
+/* ---------- 食譜內頁 ----------
+   recipeHTML() 是純函式（不摸 document），build.js 產生靜態頁時也是呼叫這個函式，
+   確保「線上即時渲染」跟「推上線前烤好的靜態 HTML」永遠長一樣。 */
+function ingListHTML(r, 倍數 = 1, 公制 = false){
+  return (r.食材 || []).map(i => i.分組 ? `<div class="grp">${esc(i.分組)}</div>` :
+    `<div class="ing-row"><b>${esc(i.名稱)}</b><span>${esc(換算份量(i.份量, 倍數, 公制))}</span></div>`).join("");
+}
+function recipeHTML(r, others){
+  return `
     <div class="rd-layout">
       <div class="rd-media">${videoHTML(r)}</div>
       <div>
@@ -376,7 +371,7 @@ function renderRecipe(){
             <div class="seg"><button data-s="1" class="on">原份量</button><button data-s="2">×2</button></div>
             <div class="seg"><button data-u="raw" class="on">原始</button><button data-u="metric">公制</button></div>
           </div>
-          <div id="ingList"></div>
+          <div id="ingList">${ingListHTML(r)}</div>
           <div class="copyrow"><button class="copybtn" data-copy="ing">複製購物清單</button></div>
         </div>
         <div class="rd-sec">
@@ -396,6 +391,21 @@ function renderRecipe(){
     <div id="vote"></div>
     ${others.length ? `<div class="phead" style="padding-top:var(--間距-大段);"><h1>其他食譜</h1></div>
     <div class="grid">${others.map(cardHTML).join("")}</div>` : ""}`;
+}
+/* 靜態頁檔名 recipe-<id>.html：從網址路徑抓 id；沒有就退回舊式 recipe.html?id= */
+const pathId = () => (String(location.pathname).match(/recipe-([a-z0-9-]+)\.html$/) || [])[1] || null;
+function renderRecipe(){
+  renderChrome("index.html");
+  const id = pathId() || new URLSearchParams(location.search).get("id");
+  const r = PUB().find(x => x.id === id) || PUB()[0];
+  if (!r) {
+    document.getElementById("rd").innerHTML =
+      `<div class="empty">找不到這道食譜。<br><a href="index.html" style="color:var(--強調色);border-bottom:1px solid var(--強調色);">回食譜列表</a></div>`;
+    return;
+  }
+  document.title = `${r.料理名稱} — ${SITE.名稱}`;
+  const others = PUB().filter(x => x.id !== r.id).sort(byDate).slice(0, 3);
+  document.getElementById("rd").innerHTML = recipeHTML(r, others);
   bindQty(r);
   bindCopy(r);
   bindShare(`${r.料理名稱}｜${SITE.名稱}`);

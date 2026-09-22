@@ -10,6 +10,14 @@
 <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
+<script>
+  /* 舊式連結 recipe.html?id=xxx 一律跳轉到烤好的靜態頁 recipe-xxx.html（build.js 產生），
+     SEO 用的標題/說明/結構化資料只寫在那份靜態頁裡，這裡不重複維護。 */
+  (function(){
+    var id = new URLSearchParams(location.search).get("id");
+    if (id) location.replace("recipe-" + id + ".html");
+  })();
+</script>
 <header id="header"></header>
 <div class="announce" id="announce" style="display:none;"></div>
 <div class="wrap" id="rd"></div>
