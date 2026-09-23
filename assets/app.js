@@ -48,7 +48,7 @@ function videoHTML(r){
   const id = ytId(u);
   if (id) {
     /* enablejsapi=1 讓我們能攔截「播放結束」，避免跑出推薦影片格（見 stopYTEndScreen）*/
-    return `<iframe class="yt" id="yt-player" src="https://www.youtube-nocookie.com/embed/${id}?rel=0&modestbranding=1&playsinline=1&enablejsapi=1&origin=${encodeURIComponent(location.origin)}" title="${esc(r.料理名稱)}" allow="accelerometer; encrypted-media; picture-in-picture" allowfullscreen loading="lazy"></iframe>`;
+    return `<iframe class="yt" id="yt-player" src="https://www.youtube-nocookie.com/embed/${id}?rel=0&modestbranding=1&playsinline=1&enablejsapi=1&origin=${encodeURIComponent(location.origin)}" title="${esc(r.料理名稱)}" allow="accelerometer; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>`;
   }
   /* 影片有講話 → 保留音軌與控制列，不自動播放 */
   return `<video class="rd-video" src="${mediaURL(u)}" ${r.封面圖 ? `poster="${mediaURL(r.封面圖)}"` : ""} controls playsinline preload="metadata"></video>`;
