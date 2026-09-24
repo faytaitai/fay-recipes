@@ -403,12 +403,12 @@ function renderRecipe(){
       `<div class="empty">找不到這道食譜。<br><a href="index.html" style="color:var(--強調色);border-bottom:1px solid var(--強調色);">回食譜列表</a></div>`;
     return;
   }
-  document.title = `${r.料理名稱} — ${SITE.名稱}`;
+  document.title = `${SITE.短名}｜${r.料理名稱}`;
   const others = PUB().filter(x => x.id !== r.id).sort(byDate).slice(0, 3);
   document.getElementById("rd").innerHTML = recipeHTML(r, others);
   bindQty(r);
   bindCopy(r);
-  bindShare(`${r.料理名稱}｜${SITE.名稱}`);
+  bindShare(`${SITE.短名}｜${r.料理名稱}`);
   stopYTEndScreen();
   renderVote("vote");
 }

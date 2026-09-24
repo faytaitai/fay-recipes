@@ -104,7 +104,7 @@ function recipeJSONLD(ctx, r){
 }
 
 function pageHTML(ctx, r, others){
-  const title = `${esc(r.料理名稱)} — ${esc(ctx.__SITE.名稱)}`;
+  const title = `${esc(ctx.__SITE.短名)}｜${esc(r.料理名稱)}`;
   const desc = esc(r.介紹 || r.料理名稱);
   const url = SITE_URL + `recipe-${r.id}.html`;
   const img = abs(ctx, r.封面圖);
