@@ -389,23 +389,36 @@ body.nav-open .logo{opacity:0;pointer-events:none;}
 .sources b{display:block;color:var(--次要文字);letter-spacing:1.5px;margin-bottom:2px;}
 .sources a{color:var(--mag-main);border-bottom:1px solid var(--mag-main);}
 
-/* ---------- 文章列表（部落格式）---------- */
-.post-list{max-width:820px;margin:0 auto;padding-top:var(--間距-組間);}
-.post-row{display:flex;gap:18px;padding:26px 0;border-bottom:1px solid var(--線色);align-items:flex-start;}
-.post-row:first-child{padding-top:0;}
-.post-row .pr-img{flex:0 0 108px;width:108px;height:108px;object-fit:cover;object-position:center bottom;background:var(--區塊底色);}
-.post-row .pr-body{flex:1;min-width:0;}
-.post-row .pr-meta{font-size:12px;letter-spacing:1.5px;color:var(--強調色);margin-bottom:6px;}
-.post-row h3{font-size:18px;line-height:1.5;font-weight:var(--標題字重);margin:0 0 8px;}
-.post-row .pr-ex{font-size:13.5px;line-height:1.85;color:var(--次要文字);margin:0;
-                 display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
-.post-row .pr-more{display:inline-block;margin-top:10px;font-size:13px;color:var(--強調色);letter-spacing:.5px;}
-.post-row:hover h3{color:var(--強調色);}
-@media (min-width:860px){
-  .post-row{gap:32px;padding:34px 0;}
-  .post-row .pr-img{flex-basis:240px;width:240px;height:180px;}
-  .post-row h3{font-size:23px;}
-  .post-row .pr-ex{font-size:14.5px;-webkit-line-clamp:3;}
+/* ---------- 文章列表（部落格式：大圖＋摘要＋側欄快速連結）---------- */
+.blog-layout{display:block;padding-top:var(--間距-組間);}
+.feed-item{text-align:center;padding-bottom:64px;margin-bottom:56px;border-bottom:1px solid var(--線色);}
+.feed-item:last-child{border-bottom:0;margin-bottom:0;}
+.fi-meta{font-size:12px;letter-spacing:2px;color:var(--強調色);margin-bottom:12px;}
+.fi-title{font-family:'Noto Serif TC','Noto Sans TC',serif;font-size:26px;line-height:1.5;font-weight:700;
+          color:var(--文字色);margin-bottom:26px;letter-spacing:.5px;}
+.feed-item a:hover .fi-title{color:var(--強調色);}
+.fi-img{display:block;margin-bottom:24px;}
+.fi-img img{width:100%;aspect-ratio:3/2;object-fit:cover;object-position:center 92%;background:var(--區塊底色);}
+.fi-ex{font-size:14.5px;line-height:2;color:var(--次要文字);text-align:left;margin-bottom:26px;
+       display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;}
+.fi-more{display:inline-block;font-size:12.5px;letter-spacing:3px;padding:10px 26px;border:1px solid var(--文字色);color:var(--文字色);}
+.fi-more:hover{background:var(--文字色);color:var(--底色);}
+/* 沒有圖的文章：靠大標題撐版面，改成淡底色區塊 */
+.feed-item.no-img{background:var(--區塊底色);padding:44px 26px 46px;border-bottom:0;margin-bottom:40px;}
+.feed-item.no-img .fi-title{font-size:30px;margin-bottom:20px;}
+.feed-item.no-img .fi-ex{text-align:center;margin-bottom:26px;}
+.side{margin-top:var(--間距-組間);padding-top:32px;border-top:2px solid var(--文字色);}
+.side h4{font-size:12px;letter-spacing:3px;font-weight:700;color:var(--文字色);margin-bottom:14px;text-align:center;}
+.side nav a{display:block;padding:14px 0;border-bottom:1px solid var(--線色);font-size:14.5px;line-height:1.7;font-weight:500;color:var(--文字色);}
+.side nav a:last-child{border-bottom:0;}
+.side nav a span{display:block;font-size:11.5px;letter-spacing:1.5px;color:var(--淡文字);font-weight:400;}
+.side nav a:hover{color:var(--強調色);}
+@media (min-width:960px){
+  .blog-layout{display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:72px;align-items:start;}
+  .fi-title{font-size:32px;}
+  .feed-item.no-img .fi-title{font-size:36px;}
+  .fi-ex{font-size:15.5px;}
+  .side{margin-top:0;position:sticky;top:96px;}
 }
 
 /* ---------- 工具頁 ---------- */

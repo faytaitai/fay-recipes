@@ -472,15 +472,22 @@ function renderGoods(){
 function renderBlog(){
   renderChrome("blog.html");
   const list = POSTS_PUB().sort(byDate);
-  document.getElementById("grid").innerHTML = list.length ? list.map(p => `
-    <a class="post-row" href="post-${p.id}.html">
-      <img class="pr-img" src="${mediaURL(p.封面圖) || p.similar_圖 || ""}" alt="${esc(p.標題)}" loading="lazy" onerror="this.style.opacity=.15">
-      <div class="pr-body">
-        <div class="pr-meta">${esc(p.分類 || "")}${p.分類 ? "・" : ""}${esc(String(p.發布日期 || "").replace(/-/g, "."))}</div>
-        <h3>${esc(p.標題)}</h3>
-        <p class="pr-ex">${esc(p.摘要 || "")}</p>
-        <span class="pr-more">閱讀全文 →</span>
-      </div></a>`).join("") : `<div class="empty"><b>文章還在寫</b>團購說明、料理心得，寫好就放上來。</div>`;
+  const root = document.getElementById("blogRoot");
+  if (!list.length) { root.innerHTML = `<div class="empty"><b>文章還在寫</b>團購說明、料理心得，寫好就放上來。</div>`; return; }
+  const meta = p => `${esc(p.分類 || "")}${p.分類 ? "・" : ""}${esc(String(p.發布日期 || "").replace(/-/g, "."))}`;
+  const feed = list.map(p => {
+    const src = mediaURL(p.封面圖) || p.similar_圖 || "";
+    return `<article class="feed-item${src ? "" : " no-img"}">
+      <div class="fi-meta">${meta(p)}</div>
+      <a href="post-${p.id}.html"><h2 class="fi-title">${esc(p.標題)}</h2></a>
+      ${src ? `<a class="fi-img" href="post-${p.id}.html"><img src="${src}" alt="${esc(p.標題)}" loading="lazy" onerror="this.style.opacity=.15"></a>` : ""}
+      <p class="fi-ex">${esc(p.摘要 || "")}</p>
+      <a class="fi-more" href="post-${p.id}.html">閱讀全文</a>
+    </article>`;
+  }).join("");
+  const side = list.map(p => `<a href="post-${p.id}.html"><span>${esc(String(p.發布日期 || "").replace(/-/g, "."))}</span>${esc(p.標題)}</a>`).join("");
+  root.innerHTML = `<div class="feed">${feed}</div>
+    <aside class="side"><h4>最新文章</h4><nav>${side}</nav></aside>`;
 }
 /* 純函式（不摸 document），build.js 烤靜態頁也是呼叫這個。
    p.雜誌 = true 的文章用雜誌版頭（大標題＋最後更新）；沒有就用一般版頭。 */
