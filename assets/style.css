@@ -287,6 +287,107 @@ body.nav-open .logo{opacity:0;pointer-events:none;}
                     background:var(--文字色);color:var(--底色);white-space:nowrap;border-radius:0;}
 .notify-msg{font-size:12.5px;color:var(--強調色);margin-top:var(--間距-緊);min-height:1.8em;}
 
+
+/* ---------- 雜誌版文章（.mag-*）：墨青主色＋磚紅強調色 ---------- */
+:root{--mag-main:#1F4A57;--mag-tint:#EAF0F1;}
+.mag-head{max-width:760px;margin:0 auto;padding:var(--間距-組間) 0 var(--間距-鬆);}
+.mag-title{font-family:'Noto Serif TC','Noto Sans TC',serif;font-size:31px;line-height:1.35;font-weight:700;
+           color:var(--mag-main);margin:var(--間距-緊) 0 var(--間距-鬆);letter-spacing:.5px;}
+.mag-date{font-size:12.5px;color:var(--淡文字);letter-spacing:1px;}
+.post-body.mag-body{max-width:760px;font-size:15.5px;line-height:2.05;color:#3B3936;}
+.mag-body p{margin-bottom:1.25em;}
+.mag-body .lede{font-size:19px;line-height:1.95;color:var(--mag-main);font-weight:500;margin-bottom:1.5em;}
+.mag-body h2{font-family:'Noto Serif TC','Noto Sans TC',serif;font-size:25px;line-height:1.4;color:var(--mag-main);
+             font-weight:700;margin:76px 0 20px;}
+.mag-body h2::before{content:"";display:block;width:44px;height:3px;background:var(--強調色);margin-bottom:18px;}
+.mag-body h3{font-size:16px;color:var(--mag-main);font-weight:700;margin:44px 0 16px;letter-spacing:.5px;}
+.mag-body strong{color:var(--文字色);}
+.mag-body a{color:var(--mag-main);border-bottom:1px solid var(--mag-main);}
+.mag-body .fig{margin:34px 0;}
+.mag-body .fig img{width:100%;margin:0;mix-blend-mode:multiply;}
+.mag-body .hl{color:var(--強調色);font-weight:700;font-size:1.08em;}
+
+/* 資料表：手機是卡片、電腦是淺線分隔的資訊表 */
+.tuna-note{font-size:12.5px;color:var(--淡文字);margin:0 0 14px;letter-spacing:.3px;}
+.tt{width:100%;border-collapse:collapse;margin-bottom:8px;}
+.tt th{font-size:12px;letter-spacing:1.5px;color:var(--淡文字);font-weight:500;text-align:left;
+       padding:10px 14px;border-bottom:2px solid var(--mag-main);}
+.tt td{padding:18px 14px;vertical-align:top;border-bottom:1px solid var(--線色);font-size:14.5px;line-height:1.75;}
+.tt tbody tr:nth-child(even){background:rgba(31,74,87,.04);}
+.tt td.brand b{display:block;font-size:17px;font-weight:700;color:var(--文字色);line-height:1.5;}
+.tt td.brand span{font-size:13.5px;color:var(--次要文字);}
+.lvw{display:flex;flex-direction:column;align-items:flex-start;gap:6px;}
+.tt .lv-note{font-size:12.5px;color:var(--次要文字);line-height:1.6;}
+.lv{display:inline-block;padding:1px 12px;border-radius:999px;font-size:13px;font-weight:700;letter-spacing:.5px;}
+.lv-low{background:#DCEEE2;color:#2C6A47;}
+.lv-lowmid{background:#E9EFD3;color:#5A7020;}
+.lv-mid{background:#FAEFC8;color:#86660A;}
+.lv-high{background:#F8D9CB;color:#B03C1C;}
+.lv-unk{background:#E6E3DF;color:#66625D;}
+@media (max-width:759px){
+  .tt thead{display:none;}
+  .tt,.tt tbody,.tt tr,.tt td{display:block;width:100%;}
+  .tt tr,.tt tbody tr:nth-child(even){background:#FFFCFA;border:1px solid var(--線色);margin-bottom:14px;padding:6px 0 10px;}
+  .tt td{border:0;padding:7px 18px;display:flex;gap:14px;font-size:14.5px;}
+  .tt td::before{content:attr(data-label);flex:0 0 4.6em;font-size:12px;color:var(--淡文字);letter-spacing:1px;padding-top:4px;}
+  .lvw{flex-direction:row;flex-wrap:wrap;align-items:center;gap:4px 10px;}
+  .tt td{align-items:flex-start;}
+  .tt td.brand{padding-top:16px;padding-bottom:10px;border-bottom:1px solid var(--淺線色);margin-bottom:4px;}
+  .tt td.brand::before{display:none;}
+  .tt td.brand b{font-size:19px;}
+}
+
+/* FDA 四個數字 */
+.fda{display:grid;grid-template-columns:1fr 1fr;gap:0;margin:30px 0 8px;border-top:2px solid var(--mag-main);}
+.fda-item{padding:22px 4px 20px;border-bottom:1px solid var(--線色);}
+.fda-item:nth-child(odd){padding-right:16px;border-right:1px solid var(--線色);}
+.fda-item:nth-child(even){padding-left:20px;}
+.fda-item .num{display:block;font-family:'Noto Serif TC','Outfit',serif;font-size:44px;line-height:1.1;
+               font-weight:700;color:var(--mag-main);letter-spacing:-.5px;}
+.fda-item .sp{display:block;font-size:13px;color:var(--次要文字);margin-top:8px;letter-spacing:.5px;}
+.fda-item.low .num{color:var(--強調色);}
+.fda-item.low .sp{color:var(--強調色);font-weight:700;}
+.fda-cap{font-size:12.5px;color:var(--淡文字);margin:0 0 6px;}
+.bigline{margin:42px 0 8px;text-align:center;font-family:'Noto Serif TC','Noto Sans TC',serif;font-size:19px;
+         line-height:1.6;color:var(--mag-main);}
+.bigline em{display:block;font-style:normal;font-size:52px;line-height:1.25;font-weight:700;color:var(--強調色);margin-top:6px;}
+@media (min-width:860px){
+  .mag-title{font-size:46px;}
+  .post-body.mag-body{font-size:16.5px;}
+  .mag-body .lede{font-size:21px;}
+  .mag-body h2{font-size:29px;}
+  .fda{grid-template-columns:repeat(4,1fr);}
+  .fda-item,.fda-item:nth-child(odd),.fda-item:nth-child(even){padding:26px 18px 22px;border-right:1px solid var(--線色);}
+  .fda-item:last-child{border-right:0;}
+  .bigline em{font-size:72px;}
+}
+
+/* 衛福部引言 */
+.pull{margin:34px 0;padding:24px 26px 26px;background:var(--mag-tint);border-left:6px solid var(--mag-main);}
+.pull .src{display:block;font-size:12.5px;letter-spacing:1.5px;color:var(--mag-main);font-weight:700;margin-bottom:12px;}
+.pull p{font-family:'Noto Serif TC','Noto Sans TC',serif;font-size:18.5px;line-height:1.95;color:var(--文字色);margin:0;}
+.pull strong{color:var(--強調色);font-weight:700;}
+
+/* 「翻到背面這樣看」四張卡 */
+.cards4{display:grid;grid-template-columns:1fr;gap:12px;margin:8px 0 10px;}
+.c4{padding:18px 20px 18px;border-left:6px solid;}
+.c4 .k{display:block;font-size:12px;font-weight:700;letter-spacing:1.5px;margin-bottom:6px;}
+.c4 .t{font-size:15px;line-height:1.85;color:var(--文字色);}
+.c4.low{background:#EEF6F1;border-color:#3E8A5F;}.c4.low .k{color:#2C6A47;}
+.c4.mid{background:#FCF6DF;border-color:#D1A62A;}.c4.mid .k{color:#86660A;}
+.c4.high{background:#FCEEE7;border-color:#D8663F;}.c4.high .k{color:#B03C1C;}
+.c4.unk{background:#F1EFEC;border-color:#A8A29B;}.c4.unk .k{color:#66625D;}
+@media (min-width:640px){.cards4{grid-template-columns:1fr 1fr;}}
+
+/* 免責聲明區與資料來源 */
+.disclaimer{margin:20px 0 0;padding:26px 28px 14px;background:#F0EEEB;border:1px solid #DDD9D3;}
+.disclaimer ul{list-style:disc;padding-left:1.1em;}
+.disclaimer li{font-size:14.5px;line-height:1.95;color:#45423E;margin-bottom:.9em;}
+.disclaimer li strong{color:var(--文字色);}
+.sources{margin-top:40px;font-size:12px;line-height:2;color:var(--淡文字);}
+.sources b{display:block;color:var(--次要文字);letter-spacing:1.5px;margin-bottom:2px;}
+.sources a{color:var(--mag-main);border-bottom:1px solid var(--mag-main);}
+
 /* ---------- 工具頁 ---------- */
 .tool-slot{border:1px dashed var(--線色);padding:var(--間距-組間) 20px;text-align:center;
            color:var(--淡文字);font-size:12.5px;line-height:2;}

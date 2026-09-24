@@ -473,7 +473,7 @@ function renderBlog(){
   renderChrome("blog.html");
   const list = POSTS_PUB().sort(byDate);
   document.getElementById("grid").innerHTML = list.length ? list.map(p => `
-    <a class="card" href="post.html?id=${p.id}">
+    <a class="card" href="post-${p.id}.html">
       <div class="card-media">
         <img class="ph" src="${mediaURL(p.封面圖) || p.similar_圖 || ""}" alt="${esc(p.標題)}" loading="lazy" onerror="this.style.opacity=.15">
         <span class="m">${esc(p.發布日期)}・${esc(p.分類 || "")}</span>
@@ -481,19 +481,33 @@ function renderBlog(){
       <h3>${esc(p.標題)}</h3>
       <div class="ex">${esc(p.摘要 || "")}</div></a>`).join("") : `<div class="empty"><b>文章還在寫</b>團購說明、料理心得，寫好就放上來。</div>`;
 }
-function renderPost(){
-  renderChrome("blog.html");
-  const id = new URLSearchParams(location.search).get("id");
-  const p = POSTS_PUB().find(x => x.id === id) || POSTS_PUB()[0];
-  if (!p) { document.getElementById("post").innerHTML = `<div class="empty"><b>找不到這篇文章</b><a href="blog.html" style="color:var(--強調色);border-bottom:1px solid var(--強調色);">回文章列表</a></div>`; return; }
-  document.title = `${p.標題} — ${SITE.名稱}`;
-  document.getElementById("post").innerHTML = `
-    <div class="phead"><h1>${esc(p.標題)}</h1><p>${esc(p.發布日期)}${p.分類 ? "・" + esc(p.分類) : ""}</p></div>
-    ${p.封面圖 || p.similar_圖 ? `<img src="${mediaURL(p.封面圖) || p.similar_圖}" alt="" style="width:100%;max-width:760px;margin:20px auto;">` : ""}
-    <div class="post-body">${p.內文}</div>
+/* 純函式（不摸 document），build.js 烤靜態頁也是呼叫這個。
+   p.雜誌 = true 的文章用雜誌版頭（大標題＋最後更新）；沒有就用一般版頭。 */
+function postHTML(p){
+  const head = p.雜誌
+    ? `<div class="mag-head">
+        ${p.分類 ? `<div class="eyebrow">${esc(p.分類)}</div>` : ""}
+        <h1 class="mag-title">${esc(p.標題)}</h1>
+        ${p.更新日期 ? `<div class="mag-date">最後更新：${esc(p.更新日期)}</div>` : ""}
+      </div>`
+    : `<div class="phead"><h1>${esc(p.標題)}</h1><p>${esc(p.發布日期)}${p.分類 ? "・" + esc(p.分類) : ""}</p></div>
+    ${p.封面圖 || p.similar_圖 ? `<img src="${mediaURL(p.封面圖) || p.similar_圖}" alt="" style="width:100%;max-width:760px;margin:20px auto;">` : ""}`;
+  return `
+    ${head}
+    <div class="post-body${p.雜誌 ? " mag-body" : ""}">${p.內文}</div>
     <div style="max-width:680px;margin:var(--間距-組間) auto 0;">
       <button class="igbtn sharebtn" id="sharebtn">分享這篇</button>
     </div>
     ${groupBuyCard()}`;
-  bindShare(`${p.標題}｜${SITE.名稱}`);
+}
+/* 靜態頁檔名 post-<id>.html：從網址路徑抓 id；沒有就退回舊式 post.html?id= */
+const postPathId = () => (String(location.pathname).match(/post-([a-z0-9-]+)\.html$/) || [])[1] || null;
+function renderPost(){
+  renderChrome("blog.html");
+  const id = postPathId() || new URLSearchParams(location.search).get("id");
+  const p = POSTS_PUB().find(x => x.id === id) || POSTS_PUB()[0];
+  if (!p) { document.getElementById("post").innerHTML = `<div class="empty"><b>找不到這篇文章</b><a href="blog.html" style="color:var(--強調色);border-bottom:1px solid var(--強調色);">回文章列表</a></div>`; return; }
+  document.title = `${SITE.短名}｜${p.標題}`;
+  document.getElementById("post").innerHTML = postHTML(p);
+  bindShare(`${SITE.短名}｜${p.標題}`);
 }

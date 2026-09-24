@@ -9,7 +9,7 @@
    這支腳本會讀 assets/data.js，幫每道「已發布」的食譜產生一份
    recipe-<id>.html（跟 assets/app.js 的 recipeHTML() 用同一段樣板，
    保證跟線上即時渲染長一模一樣），並附上標題／說明／Recipe 結構化
-   資料。同時重新產生 sitemap.xml。
+   資料，文章（POSTS）同理產生 post-<id>.html。同時重新產生 sitemap.xml。
 
    ⚠️ 什麼時候要跑：在 assets/data.js 改了食譜內容之後、git push 之前，
    在這個資料夾下執行：
@@ -40,7 +40,8 @@ function loadSandbox(){
     dataCode + "\n" + appCode + "\n" +
     "globalThis.__SITE=SITE; globalThis.__RECIPES=RECIPES; globalThis.__POSTS=(typeof POSTS!=='undefined'?POSTS:[]);" +
     "globalThis.__PUB=PUB; globalThis.__byDate=byDate; globalThis.__esc=esc; globalThis.__tagsOf=tagsOf;" +
-    "globalThis.__mediaURL=mediaURL; globalThis.__recipeHTML=recipeHTML; globalThis.__cardHTML=cardHTML;",
+    "globalThis.__mediaURL=mediaURL; globalThis.__recipeHTML=recipeHTML; globalThis.__cardHTML=cardHTML;" +
+    "globalThis.__POSTS_PUB=POSTS_PUB; globalThis.__postHTML=postHTML;",
     sandbox
   );
   return sandbox;
@@ -159,17 +160,85 @@ function buildRecipePages(ctx){
   return { pub, written };
 }
 
+function postJSONLD(ctx, p){
+  const json = {
+    "@context": "https://schema.org/",
+    "@type": "Article",
+    headline: p.標題,
+    description: p.摘要 || p.標題,
+    image: [abs(ctx, p.封面圖)].filter(Boolean),
+    author: { "@type": "Person", name: "Fay" },
+    datePublished: p.發布日期,
+    dateModified: p.發布日期,
+    mainEntityOfPage: SITE_URL + `post-${p.id}.html`,
+  };
+  Object.keys(json).forEach(k => json[k] === undefined && delete json[k]);
+  return JSON.stringify(json, null, 2);
+}
+
+function postPageHTML(ctx, p){
+  const title = `${esc(ctx.__SITE.短名)}｜${esc(p.標題)}`;
+  const desc = esc(p.摘要 || p.標題);
+  const url = SITE_URL + `post-${p.id}.html`;
+  const img = abs(ctx, p.封面圖);
+  return `<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${title}</title>
+<meta name="description" content="${desc}">
+<link rel="canonical" href="${url}">
+<meta property="og:type" content="article">
+<meta property="og:title" content="${title}">
+<meta property="og:description" content="${desc}">
+<meta property="og:url" content="${url}">
+${img ? `<meta property="og:image" content="${img}">\n` : ""}<meta property="og:site_name" content="${esc(ctx.__SITE.名稱)}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="${title}">
+<meta name="twitter:description" content="${desc}">
+${img ? `<meta name="twitter:image" content="${img}">\n` : ""}<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<script type="application/ld+json">
+${postJSONLD(ctx, p)}
+</script>
+</head>
+<body>
+<header id="header"></header>
+<div class="announce" id="announce" style="display:none;"></div>
+<div class="wrap" id="post">${ctx.__postHTML(p)}</div>
+<footer><div class="wrap" id="footer"></div></footer>
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+<script>renderPost();</script>
+</body>
+</html>
+`;
+}
+
+function buildPostPages(ctx){
+  const pub = ctx.__POSTS_PUB().slice().sort(ctx.__byDate);
+  const written = [];
+  pub.forEach(p => {
+    fs.writeFileSync(path.join(ROOT, `post-${p.id}.html`), postPageHTML(ctx, p), "utf8");
+    written.push(`post-${p.id}.html`);
+  });
+  return { pub, written };
+}
+
 function buildRobots(){
   const txt = `User-agent: *\nAllow: /\n\nSitemap: ${SITE_URL}sitemap.xml\n`;
   fs.writeFileSync(path.join(ROOT, "robots.txt"), txt, "utf8");
 }
 
-function buildSitemap(pub){
+function buildSitemap(pub, posts){
   const staticPages = ["index.html", "about.html", "blog.html", "goods.html", "vote.html", "tools.html"];
   const today = new Date().toISOString().slice(0, 10);
   const urls = [
     ...staticPages.map(p => ({ loc: SITE_URL + p, lastmod: today })),
     ...pub.map(r => ({ loc: SITE_URL + `recipe-${r.id}.html`, lastmod: r.發布日期 || today })),
+    ...posts.map(p => ({ loc: SITE_URL + `post-${p.id}.html`, lastmod: p.發布日期 || today })),
   ];
   const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
     urls.map(u => `  <url><loc>${u.loc}</loc><lastmod>${u.lastmod}</lastmod></url>`).join("\n") +
@@ -180,10 +249,11 @@ function buildSitemap(pub){
 function main(){
   const ctx = loadSandbox();
   const { pub, written } = buildRecipePages(ctx);
+  const { pub: posts, written: postFiles } = buildPostPages(ctx);
   buildRobots();
-  buildSitemap(pub);
-  console.log(`已產生 ${written.length} 份食譜靜態頁：`);
-  written.forEach(f => console.log("  " + f));
+  buildSitemap(pub, posts);
+  console.log(`已產生 ${written.length} 份食譜靜態頁、${postFiles.length} 份文章靜態頁：`);
+  written.concat(postFiles).forEach(f => console.log("  " + f));
   console.log("已更新 robots.txt、sitemap.xml");
 }
 
