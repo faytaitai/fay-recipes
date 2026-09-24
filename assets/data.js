@@ -393,4 +393,160 @@ const POSTS = [
     內文: `<p>段落</p><h2>小標</h2>`
   }
   */
+  {
+    id: "tuna-can-species",
+    狀態: "已發布",
+    雜誌: true,
+    標題: "我把 10 款鮪魚罐頭的成分都翻出來看了",
+    分類: "食材整理",
+    發布日期: "2026-09-24",
+    更新日期: "2026 年 9 月",
+    摘要: "比較 10 款台灣超市買得到的鮪魚罐頭，成分寫的是哪一種魚、產地在哪，還有翻到背面該怎麼看。",
+    封面圖: "media/tuna-cover.jpg",
+    內文: `
+<p class="lede">我比較了 10 款在台灣超市、賣場買得到的鮪魚罐頭，把每一罐背面寫的成分、實際是哪一種魚、產地都列出來了。</p>
+
+<p>會想做這件事，是因為我自己家也常吃。鮪魚三明治、鮪魚蛋餅、鮪魚拌飯，開一罐就能解決一餐。但一想到重金屬，每次都有點心虛。</p>
+
+<p>後來才發現，重點根本不是「要不要吃鮪魚」，而是<strong>你吃到的是哪一種魚</strong>。</p>
+
+<div class="fig"><img src="media/tuna-1.jpg" alt="站在超市貨架前，對著一排鮪魚罐頭猶豫的插畫" loading="lazy"></div>
+
+<p>先看表：</p>
+
+<p class="tuna-note">資料為各品牌公開成分標示，整理於 2026 年 9 月</p>
+<table class="tt">
+  <thead>
+    <tr><th>品牌／品項</th><th>成分寫的魚種</th><th>產地</th><th>魚種汞含量參考</th></tr>
+  </thead>
+  <tbody>
+        <tr>
+          <td class="brand" data-label="品牌／品項"><b>同榮</b><span>鮪魚片</span></td>
+          <td data-label="成分寫的魚種">東方齒鰆<br>（煙仔虎）</td>
+          <td data-label="產地">台灣</td>
+          <td data-label="魚種汞含量參考"><div class="lvw"><span class="lv lv-low">較低</span><span class="lv-note">非鮪屬，體型較小</span></div></td>
+        </tr>
+        <tr>
+          <td class="brand" data-label="品牌／品項"><b>同榮</b><span>精選魚特餐</span></td>
+          <td data-label="成分寫的魚種">鮪鰹魚類</td>
+          <td data-label="產地">越南</td>
+          <td data-label="魚種汞含量參考"><div class="lvw"><span class="lv lv-unk">不明</span><span class="lv-note">標示籠統</span></div></td>
+        </tr>
+        <tr>
+          <td class="brand" data-label="品牌／品項"><b>Green&amp;Safe</b><span>橄欖油漬鮪魚</span></td>
+          <td data-label="成分寫的魚種">東方齒鰆</td>
+          <td data-label="產地">台灣</td>
+          <td data-label="魚種汞含量參考"><div class="lvw"><span class="lv lv-low">較低</span><span class="lv-note">非鮪屬</span></div></td>
+        </tr>
+        <tr>
+          <td class="brand" data-label="品牌／品項"><b>紅鷹牌</b><span>海底雞</span></td>
+          <td data-label="成分寫的魚種">鮪魚<br>正鰹<br>東方齒鰆</td>
+          <td data-label="產地">台灣<br>宜蘭</td>
+          <td data-label="魚種汞含量參考"><div class="lvw"><span class="lv lv-lowmid">中低</span><span class="lv-note">三種混合</span></div></td>
+        </tr>
+        <tr>
+          <td class="brand" data-label="品牌／品項"><b>新東陽</b><span>原味鮪魚片</span></td>
+          <td data-label="成分寫的魚種">鮪鰹魚類</td>
+          <td data-label="產地">台灣</td>
+          <td data-label="魚種汞含量參考"><div class="lvw"><span class="lv lv-unk">不明</span><span class="lv-note">標示籠統</span></div></td>
+        </tr>
+        <tr>
+          <td class="brand" data-label="品牌／品項"><b>新宜興</b><span>原味鮪魚片</span></td>
+          <td data-label="成分寫的魚種">鮪鰹魚類</td>
+          <td data-label="產地">台灣</td>
+          <td data-label="魚種汞含量參考"><div class="lvw"><span class="lv lv-unk">不明</span><span class="lv-note">標示籠統</span></div></td>
+        </tr>
+        <tr>
+          <td class="brand" data-label="品牌／品項"><b>愛之味</b><span>鮪魚片</span></td>
+          <td data-label="成分寫的魚種">鮪魚<br>（沒寫品種）</td>
+          <td data-label="產地">泰國</td>
+          <td data-label="魚種汞含量參考"><div class="lvw"><span class="lv lv-mid">中</span><span class="lv-note">屬鮪屬，品種不明</span></div></td>
+        </tr>
+        <tr>
+          <td class="brand" data-label="品牌／品項"><b>遠洋牌</b><span>鮪魚片</span></td>
+          <td data-label="成分寫的魚種">鮪魚<br>（沒寫品種）</td>
+          <td data-label="產地">台灣</td>
+          <td data-label="魚種汞含量參考"><div class="lvw"><span class="lv lv-mid">中</span><span class="lv-note">屬鮪屬，品種不明</span></div></td>
+        </tr>
+        <tr>
+          <td class="brand" data-label="品牌／品項"><b>Hagoromo 哈格</b><span>鮪魚</span></td>
+          <td data-label="成分寫的魚種">黃鰭鮪</td>
+          <td data-label="產地">日本</td>
+          <td data-label="魚種汞含量參考"><div class="lvw"><span class="lv lv-mid">中</span></div></td>
+        </tr>
+        <tr>
+          <td class="brand" data-label="品牌／品項"><b>蘇澳區漁會</b><span>黑鮪魚罐頭</span></td>
+          <td data-label="成分寫的魚種">黑鮪魚</td>
+          <td data-label="產地">台灣</td>
+          <td data-label="魚種汞含量參考"><div class="lvw"><span class="lv lv-high">較高</span></div></td>
+        </tr>
+  </tbody>
+</table>
+
+<h2>我是怎麼判斷的</h2>
+
+<p>先講清楚，<span class="hl">我沒有送驗任何一罐</span>，我只是一個會看背面的家庭主婦。</p>
+
+<p>我做的是兩件事：把每個品牌公開的成分標示找出來，再去對照美國 FDA 公布的各魚種汞含量平均值。</p>
+
+<p>FDA 的數字大概是這樣：</p>
+
+<div class="fda">
+  <div class="fda-item low"><span class="num">0.126</span><span class="sp">正鰹・最低</span></div>
+  <div class="fda-item"><span class="num">0.354</span><span class="sp">黃鰭鮪</span></div>
+  <div class="fda-item"><span class="num">0.350</span><span class="sp">長鰭鮪</span></div>
+  <div class="fda-item"><span class="num">最高</span><span class="sp">大目鮪</span></div>
+</div>
+<p class="fda-cap">FDA 實測平均值，單位 ppm</p>
+
+<p class="bigline">同樣叫鮪魚，<em>差了快 3 倍。</em></p>
+
+<p>所以表格裡那一欄，講的是<strong>魚種的差異</strong>，不是說哪個品牌比較好或比較差。</p>
+
+<p>在美國買罐頭其實簡單很多，因為正面就直接印魚種——Skipjack、Yellowfin、Albacore，看一眼就知道，想避開哪種放回架上就好。</p>
+
+<p>台灣不是這樣。2017 年起食藥署開放正鰹可以直接標示成「鮪魚罐頭」，只要在成分裡註明就好，所以正面幾乎一律只寫「鮪魚」。你只能翻到背面自己看。</p>
+
+<div class="fig"><img src="media/tuna-3.jpg" alt="正鰹、長鰭鮪／黃鰭鮪、黑鮪的體型比較插畫" loading="lazy"></div>
+
+<h3>翻到背面之後這樣看：</h3>
+
+<div class="cards4">
+  <div class="c4 low"><span class="k">汞含量最低</span><div class="t">寫<strong>正鰹、東方齒鰆、煙仔虎、鰹魚</strong> → FDA 資料中汞含量最低的一群</div></div>
+  <div class="c4 mid"><span class="k">汞含量中等</span><div class="t">只寫<strong>鮪魚</strong>，或寫<strong>黃鰭鮪</strong> → 汞含量中等</div></div>
+  <div class="c4 high"><span class="k">汞含量偏高</span><div class="t">寫<strong>黑鮪魚、大目鮪</strong> → 汞含量偏高</div></div>
+  <div class="c4 unk"><span class="k">看不出來</span><div class="t">寫<strong>鮪鰹魚類</strong> → 這個真的看不出來，可能是鮪也可能是鰹，想確定只能打客服</div></div>
+</div>
+
+<h2>那到底可以吃多少？</h2>
+
+<p>根據衛福部 2017 年訂定的魚類攝取指南：</p>
+
+<div class="pull">
+  <span class="src">衛福部 2017 年魚類攝取指南</span>
+  <p>育齡婦女、孕婦每週吃鮪魚等大型魚<strong>不超過 70 公克（2 份）</strong>；6 歲以下兒童<strong>每月不超過 1 份或避免食用</strong>。</p>
+</div>
+
+<p>消基會也建議不要只吃一種魚。土魠、秋刀魚、鯖魚、鱈魚、鮭魚的 DHA、EPA 其實都比鮪魚高很多。</p>
+
+<p>所以我現在的做法不是不買鮪魚罐頭，是輪著買。</p>
+
+<div class="fig"><img src="media/tuna-4.jpg" alt="拿著鮪魚罐頭微笑的插畫" loading="lazy"></div>
+
+<h2>幾句必要的說明</h2>
+
+<div class="disclaimer">
+  <ul>
+    <li>表格裡的汞高低是<strong>依魚種推估</strong>，不是我實際送驗的結果。依據是各品牌公開的成分標示，加上 FDA 的魚種平均值。</li>
+    <li>消基會 2024 年抽驗 30 件市售樣品，重金屬都在法規限量內。法規管的是單罐不能超標，份量建議管的是長期累積，這是兩件事。</li>
+    <li>這不是在評價品牌好壞，也不是健康或醫療建議。</li>
+    <li>成分跟產地都可能改，<strong>請以你手上那罐背面的標示為準</strong>。</li>
+    <li>孕期、哺乳中、家裡有小小孩或有特殊狀況的，還是問一下醫師或營養師比較安心。</li>
+  </ul>
+</div>
+
+<p class="sources"><b>資料來源</b>
+<a href="https://www.consumers.org.tw/product-detail-3708805.html" target="_blank" rel="noopener">消基會 2024 生鮮鮪魚及魚罐頭調查測試</a>｜<a href="https://19january2021snapshot.epa.gov/fish-tech/epa-fda-fish-advice-technical-information_.html" target="_blank" rel="noopener">EPA-FDA Fish Advice</a>｜<a href="https://scienceinsights.org/is-yellowfin-tuna-high-in-mercury-and-safe-to-eat/" target="_blank" rel="noopener">FDA 各魚種汞含量</a>｜<a href="https://www.cool3c.com/article/236537" target="_blank" rel="noopener">Cool3c 鮪魚罐頭品牌整理</a>｜<a href="https://health.udn.com/health/story/6010/2827123" target="_blank" rel="noopener">元氣網：開放正鰹當鮪魚</a></p>
+`
+  }
 ];
