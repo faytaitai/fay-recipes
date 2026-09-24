@@ -473,13 +473,14 @@ function renderBlog(){
   renderChrome("blog.html");
   const list = POSTS_PUB().sort(byDate);
   document.getElementById("grid").innerHTML = list.length ? list.map(p => `
-    <a class="card" href="post-${p.id}.html">
-      <div class="card-media">
-        <img class="ph" src="${mediaURL(p.封面圖) || p.similar_圖 || ""}" alt="${esc(p.標題)}" loading="lazy" onerror="this.style.opacity=.15">
-        <span class="m">${esc(p.發布日期)}・${esc(p.分類 || "")}</span>
-      </div>
-      <h3>${esc(p.標題)}</h3>
-      <div class="ex">${esc(p.摘要 || "")}</div></a>`).join("") : `<div class="empty"><b>文章還在寫</b>團購說明、料理心得，寫好就放上來。</div>`;
+    <a class="post-row" href="post-${p.id}.html">
+      <img class="pr-img" src="${mediaURL(p.封面圖) || p.similar_圖 || ""}" alt="${esc(p.標題)}" loading="lazy" onerror="this.style.opacity=.15">
+      <div class="pr-body">
+        <div class="pr-meta">${esc(p.分類 || "")}${p.分類 ? "・" : ""}${esc(String(p.發布日期 || "").replace(/-/g, "."))}</div>
+        <h3>${esc(p.標題)}</h3>
+        <p class="pr-ex">${esc(p.摘要 || "")}</p>
+        <span class="pr-more">閱讀全文 →</span>
+      </div></a>`).join("") : `<div class="empty"><b>文章還在寫</b>團購說明、料理心得，寫好就放上來。</div>`;
 }
 /* 純函式（不摸 document），build.js 烤靜態頁也是呼叫這個。
    p.雜誌 = true 的文章用雜誌版頭（大標題＋最後更新）；沒有就用一般版頭。 */

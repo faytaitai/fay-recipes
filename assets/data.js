@@ -410,8 +410,6 @@ const POSTS = [
 
 <p>後來才發現，重點根本不是「要不要吃鮪魚」，而是<strong>你吃到的是哪一種魚</strong>。</p>
 
-<div class="fig"><img src="media/tuna-1.jpg" alt="站在超市貨架前，對著一排鮪魚罐頭猶豫的插畫" loading="lazy"></div>
-
 <p>先看表：</p>
 
 <p class="tuna-note">資料為各品牌公開成分標示，整理於 2026 年 9 月</p>
@@ -530,8 +528,6 @@ const POSTS = [
 <p>消基會也建議不要只吃一種魚。土魠、秋刀魚、鯖魚、鱈魚、鮭魚的 DHA、EPA 其實都比鮪魚高很多。</p>
 
 <p>所以我現在的做法不是不買鮪魚罐頭，是輪著買。</p>
-
-<div class="fig"><img src="media/tuna-4.jpg" alt="拿著鮪魚罐頭微笑的插畫" loading="lazy"></div>
 
 <h2>幾句必要的說明</h2>
 
