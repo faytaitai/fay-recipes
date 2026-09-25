@@ -418,63 +418,63 @@ const POSTS = [
   <tbody>
         <tr>
           <td class="brand" data-label="品牌／品項"><b>同榮</b><span>鮪魚片</span></td>
-          <td data-label="魚種">東方齒鰆<br>（煙仔虎）</td>
+          <td data-label="魚種">東方齒鰆（煙仔虎）</td>
           <td data-label="產地">台灣</td>
-          <td data-label="魚種汞含量參考"><div class="lvw"><span class="lv lv-low">較低</span><span class="lv-note">非鮪屬，體型較小</span></div></td>
+          <td data-label="汞含量"><div class="lvw"><span class="lv lv-low">較低</span><span class="lv-note">非鮪屬，體型較小</span></div></td>
         </tr>
         <tr>
           <td class="brand" data-label="品牌／品項"><b>同榮</b><span>精選魚特餐</span></td>
           <td data-label="魚種">鮪鰹魚類</td>
           <td data-label="產地">越南</td>
-          <td data-label="魚種汞含量參考"><div class="lvw"><span class="lv lv-unk">不明</span><span class="lv-note">標示籠統</span></div></td>
+          <td data-label="汞含量"><div class="lvw"><span class="lv lv-unk">不明</span><span class="lv-note">標示籠統</span></div></td>
         </tr>
         <tr>
           <td class="brand" data-label="品牌／品項"><b>Green&amp;Safe</b><span>橄欖油漬鮪魚</span></td>
           <td data-label="魚種">東方齒鰆</td>
           <td data-label="產地">台灣</td>
-          <td data-label="魚種汞含量參考"><div class="lvw"><span class="lv lv-low">較低</span><span class="lv-note">非鮪屬</span></div></td>
+          <td data-label="汞含量"><div class="lvw"><span class="lv lv-low">較低</span><span class="lv-note">非鮪屬</span></div></td>
         </tr>
         <tr>
           <td class="brand" data-label="品牌／品項"><b>紅鷹牌</b><span>海底雞</span></td>
-          <td data-label="魚種">鮪魚<br>正鰹<br>東方齒鰆</td>
-          <td data-label="產地">台灣<br>宜蘭</td>
-          <td data-label="魚種汞含量參考"><div class="lvw"><span class="lv lv-lowmid">中低</span><span class="lv-note">三種混合</span></div></td>
+          <td data-label="魚種">鮪魚、正鰹、東方齒鰆</td>
+          <td data-label="產地">台灣、宜蘭</td>
+          <td data-label="汞含量"><div class="lvw"><span class="lv lv-lowmid">中低</span><span class="lv-note">三種混合</span></div></td>
         </tr>
         <tr>
           <td class="brand" data-label="品牌／品項"><b>新東陽</b><span>原味鮪魚片</span></td>
           <td data-label="魚種">鮪鰹魚類</td>
           <td data-label="產地">台灣</td>
-          <td data-label="魚種汞含量參考"><div class="lvw"><span class="lv lv-unk">不明</span><span class="lv-note">標示籠統</span></div></td>
+          <td data-label="汞含量"><div class="lvw"><span class="lv lv-unk">不明</span><span class="lv-note">標示籠統</span></div></td>
         </tr>
         <tr>
           <td class="brand" data-label="品牌／品項"><b>新宜興</b><span>原味鮪魚片</span></td>
           <td data-label="魚種">鮪鰹魚類</td>
           <td data-label="產地">台灣</td>
-          <td data-label="魚種汞含量參考"><div class="lvw"><span class="lv lv-unk">不明</span><span class="lv-note">標示籠統</span></div></td>
+          <td data-label="汞含量"><div class="lvw"><span class="lv lv-unk">不明</span><span class="lv-note">標示籠統</span></div></td>
         </tr>
         <tr>
           <td class="brand" data-label="品牌／品項"><b>愛之味</b><span>鮪魚片</span></td>
-          <td data-label="魚種">鮪魚<br>（沒寫品種）</td>
+          <td data-label="魚種">鮪魚（沒寫品種）</td>
           <td data-label="產地">泰國</td>
-          <td data-label="魚種汞含量參考"><div class="lvw"><span class="lv lv-mid">中</span><span class="lv-note">屬鮪屬，品種不明</span></div></td>
+          <td data-label="汞含量"><div class="lvw"><span class="lv lv-mid">中</span><span class="lv-note">屬鮪屬，品種不明</span></div></td>
         </tr>
         <tr>
           <td class="brand" data-label="品牌／品項"><b>遠洋牌</b><span>鮪魚片</span></td>
-          <td data-label="魚種">鮪魚<br>（沒寫品種）</td>
+          <td data-label="魚種">鮪魚（沒寫品種）</td>
           <td data-label="產地">台灣</td>
-          <td data-label="魚種汞含量參考"><div class="lvw"><span class="lv lv-mid">中</span><span class="lv-note">屬鮪屬，品種不明</span></div></td>
+          <td data-label="汞含量"><div class="lvw"><span class="lv lv-mid">中</span><span class="lv-note">屬鮪屬，品種不明</span></div></td>
         </tr>
         <tr>
           <td class="brand" data-label="品牌／品項"><b>Hagoromo 哈格</b><span>鮪魚</span></td>
           <td data-label="魚種">黃鰭鮪</td>
           <td data-label="產地">日本</td>
-          <td data-label="魚種汞含量參考"><div class="lvw"><span class="lv lv-mid">中</span></div></td>
+          <td data-label="汞含量"><div class="lvw"><span class="lv lv-mid">中</span></div></td>
         </tr>
         <tr>
           <td class="brand" data-label="品牌／品項"><b>蘇澳區漁會</b><span>黑鮪魚罐頭</span></td>
           <td data-label="魚種">黑鮪魚</td>
           <td data-label="產地">台灣</td>
-          <td data-label="魚種汞含量參考"><div class="lvw"><span class="lv lv-high">較高</span></div></td>
+          <td data-label="汞含量"><div class="lvw"><span class="lv lv-high">較高</span></div></td>
         </tr>
   </tbody>
 </table>

@@ -327,26 +327,22 @@ body.nav-open .logo{opacity:0;pointer-events:none;}
 @media (max-width:759px){
   .tt thead{display:none;}
   .tt,.tt tbody{display:block;width:100%;}
-  .tt tr,.tt tbody tr:nth-child(even){display:grid;grid-template-columns:1fr auto;column-gap:12px;row-gap:9px;
-      align-items:start;background:#FFFCFA;border:1px solid var(--線色);margin-bottom:12px;padding:16px 16px 14px;}
+  .tt tr,.tt tbody tr:nth-child(even){display:block;background:#FFFCFA;border:1px solid var(--線色);
+      margin-bottom:12px;padding:16px 16px 14px;}
   .tt td{display:block;width:auto;border:0;padding:0;font-size:15.5px;line-height:1.7;}
   /* 品牌＋品項同一行、字級接近 */
-  .tt td.brand{grid-column:1;grid-row:1;align-self:center;}
+  .tt td.brand{padding-bottom:10px;border-bottom:1px solid var(--淺線色);margin-bottom:10px;}
   .tt td.brand::before{display:none;}
   .tt td.brand b,.tt td.brand span{display:inline;font-size:17px;line-height:1.6;}
   .tt td.brand span{margin-left:8px;font-weight:500;color:var(--次要文字);}
-  /* 魚種、產地：左標籤、右內容 */
-  .tt td:nth-child(2),.tt td:nth-child(3){grid-column:1 / -1;display:flex;gap:14px;}
-  .tt td:nth-child(2){grid-row:2;padding-top:10px;border-top:1px solid var(--淺線色);}
-  .tt td:nth-child(3){grid-row:3;}
-  .tt td:nth-child(2)::before,.tt td:nth-child(3)::before{content:attr(data-label);flex:0 0 2.8em;font-size:13px;
-      letter-spacing:1px;color:var(--淡文字);padding-top:2px;}
-  /* 汞含量等級：放右上、加大 */
-  .tt td:nth-child(4){display:contents;}
-  .tt td:nth-child(4)::before{display:none;}
-  .tt .lvw{display:contents;}
-  .tt .lv{grid-column:2;grid-row:1;justify-self:end;align-self:center;font-size:16px;padding:4px 16px;}
-  .tt .lv-note{grid-column:1 / -1;grid-row:4;font-size:14px;color:var(--次要文字);}
+  /* 魚種、產地、汞含量：左標籤、右內容，三列對齊 */
+  .tt td:not(.brand){display:flex;gap:14px;margin-top:6px;}
+  .tt td:not(.brand)::before{content:attr(data-label);flex:0 0 3.4em;font-size:13px;letter-spacing:1px;
+      color:var(--淡文字);padding-top:3px;}
+  /* 汞含量：等級標籤加大，備註跟它放同一行 */
+  .lvw{flex-direction:row;flex-wrap:wrap;align-items:center;gap:6px 12px;}
+  .tt .lv{font-size:16px;padding:4px 16px;}
+  .tt .lv-note{font-size:14px;color:var(--次要文字);}
 }
 
 /* FDA 四個數字 */
