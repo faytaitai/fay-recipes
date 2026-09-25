@@ -326,15 +326,21 @@ body.nav-open .logo{opacity:0;pointer-events:none;}
 .lv-unk{background:#E6E3DF;color:#66625D;}
 @media (max-width:759px){
   .tt thead{display:none;}
-  .tt,.tt tbody,.tt tr,.tt td{display:block;width:100%;}
-  .tt tr,.tt tbody tr:nth-child(even){background:#FFFCFA;border:1px solid var(--線色);margin-bottom:14px;padding:6px 0 10px;}
-  .tt td{border:0;padding:7px 18px;display:flex;gap:14px;font-size:14.5px;}
-  .tt td::before{content:attr(data-label);flex:0 0 4.6em;font-size:12px;color:var(--淡文字);letter-spacing:1px;padding-top:4px;}
-  .lvw{flex-direction:row;flex-wrap:wrap;align-items:center;gap:4px 10px;}
-  .tt td{align-items:flex-start;}
-  .tt td.brand{padding-top:16px;padding-bottom:10px;border-bottom:1px solid var(--淺線色);margin-bottom:4px;}
+  .tt,.tt tbody{display:block;width:100%;}
+  .tt tr,.tt tbody tr:nth-child(even){display:grid;grid-template-columns:1.3fr 1fr;column-gap:16px;row-gap:14px;
+      align-items:start;background:#FFFCFA;border:1px solid var(--線色);margin-bottom:12px;padding:18px 18px 16px;}
+  .tt td{display:block;width:auto;border:0;padding:0;font-size:14.5px;line-height:1.7;}
+  .tt td::before{content:attr(data-label);display:block;font-size:11px;letter-spacing:1.5px;color:var(--淡文字);margin-bottom:3px;}
+  .tt td.brand{grid-column:1;grid-row:1;}
   .tt td.brand::before{display:none;}
   .tt td.brand b{font-size:19px;}
+  .tt td:nth-child(2){grid-column:1;grid-row:2;}
+  .tt td:nth-child(3){grid-column:2;grid-row:2;}
+  .tt td:nth-child(4){display:contents;}
+  .tt td:nth-child(4)::before{display:none;}
+  .tt .lvw{display:contents;}
+  .tt .lv{grid-column:2;grid-row:1;justify-self:end;align-self:start;}
+  .tt .lv-note{grid-column:1 / -1;grid-row:3;padding-top:12px;border-top:1px solid var(--淺線色);font-size:13px;}
 }
 
 /* FDA 四個數字 */
