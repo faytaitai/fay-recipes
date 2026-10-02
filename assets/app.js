@@ -398,7 +398,7 @@ function recipeHTML(r, others){
     <div class="cm" id="ck" hidden>
       <div class="cm-top">
         <div class="cm-count" id="ckCount"></div>
-        <button class="cm-reset" id="ckReset">清除打勾</button>
+        <button class="cm-reset" id="ckReset">Reset</button>
         <button class="cm-close" id="ckClose" aria-label="關閉烹飪模式">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 4l16 16M20 4L4 20"/></svg>
         </button>
@@ -410,7 +410,7 @@ function recipeHTML(r, others){
       </div>
       <div class="cm-backdrop" id="ckBackdrop"></div>
       <div class="cm-ing-panel" id="ckIngPanel">
-        <div class="cm-ing-head"><h4>材 料</h4><button class="cm-ing-close" id="ckIngClose" aria-label="收起材料"><span>收起</span><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 4l16 16M20 4L4 20"/></svg></i></button></div>
+        <div class="cm-ing-head"><h4>材 料</h4><button class="cm-ing-close" id="ckIngClose" aria-label="收起材料"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 4l16 16M20 4L4 20"/></svg></i></button></div>
         <div id="ckIngList"></div>
       </div>
     </div>`;
@@ -419,10 +419,22 @@ function recipeHTML(r, others){
 /* ---------- 烹飪模式：整份步驟清單，點整張卡片打勾，目前這一步自動放大；並嘗試防止螢幕鎖定 ---------- */
 function bindCookMode(r){
   const el = id => document.getElementById(id);
+  /* 食材分組（醃料、調味料A…）：步驟文字提到組名時，在那一步下面用小字列出該組食材。
+     「材料」「食材」這種泛稱組名不比對，避免每一步都亂跳出來。 */
+  const groups = []; let gCur = null;
+  (r.食材 || []).forEach(i => {
+    if (i.分組) { gCur = { name: i.分組, items: [] }; groups.push(gCur); }
+    else if (gCur) gCur.items.push(i);
+  });
+  const matchable = groups.map((g, gi) => gi).filter(gi => !/^(食材|材料)$/.test(groups[gi].name));
   const items = []; let n = 0, total = 0;
   (r.步驟 || []).forEach(x => {
     if (isHead(x)) { items.push({ head: headText(x) }); n = 0; }
-    else { items.push({ text: x, num: ++n, idx: total++ }); }
+    else { items.push({ text: x, num: ++n, idx: total++, subs: matchable.filter(gi => x.includes(groups[gi].name)) }); }
+  });
+  const fillSubs = () => el("ckList").querySelectorAll(".ck-sub").forEach(sp => {
+    const gis = (sp.dataset.g || "").split(",").filter(Boolean).map(Number);
+    sp.innerHTML = gis.map(gi => groups[gi].items.map(i => `<span class="ck-it">${esc(`${i.名稱} ${換算份量(i.份量, QTY.倍數, QTY.公制)}`.trim())}</span>`).join("、")).join("；");
   });
   if (!total) { el("ckOpen") && (el("ckOpen").style.display = "none"); return; }
 
@@ -434,7 +446,7 @@ function bindCookMode(r){
   el("ckList").innerHTML = items.map(it => it.head
     ? `<div class="ck-head">${esc(it.head)}</div>`
     : `<button type="button" class="ck-step" data-i="${it.idx}">
-         <span class="ck-n">${it.num}</span><span class="ck-t">${esc(it.text)}</span><span class="ck-ok"></span>
+         <span class="ck-n">${it.num}</span><span class="ck-t"><span class="ck-main">${esc(it.text)}</span><span class="ck-sub" data-g="${it.subs.join(",")}"></span></span><span class="ck-ok"></span>
        </button>`).join("");
   const cards = [...el("ckList").querySelectorAll(".ck-step")];
 
@@ -478,7 +490,7 @@ function bindCookMode(r){
     if (ing) el("ckIngList").innerHTML = ingListHTML(r, QTY.倍數, QTY.公制);
     el("ckIngPanel").classList.toggle("open", ing);
     el("ckBackdrop").classList.toggle("open", ing);
-    if (lv >= 1 && !wasOpen) { paint(false); keepAwake(); setTimeout(() => paint(true), 60); }
+    if (lv >= 1 && !wasOpen) { fillSubs(); paint(false); keepAwake(); setTimeout(() => paint(true), 60); }
     if (lv < 1) releaseAwake();
     level = lv;
   };
