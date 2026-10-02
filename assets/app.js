@@ -427,10 +427,16 @@ function bindCookMode(r){
     else if (gCur) gCur.items.push(i);
   });
   const matchable = groups.map((g, gi) => gi).filter(gi => !/^(食材|材料)$/.test(groups[gi].name));
+  /* 同一組食材只在「第一次被提到」的那一步列出，後面的步驟不重複 */
+  const shown = new Set();
   const items = []; let n = 0, total = 0;
   (r.步驟 || []).forEach(x => {
     if (isHead(x)) { items.push({ head: headText(x) }); n = 0; }
-    else { items.push({ text: x, num: ++n, idx: total++, subs: matchable.filter(gi => x.includes(groups[gi].name)) }); }
+    else {
+      const subs = matchable.filter(gi => x.includes(groups[gi].name) && !shown.has(gi));
+      subs.forEach(gi => shown.add(gi));
+      items.push({ text: x, num: ++n, idx: total++, subs });
+    }
   });
   const fillSubs = () => el("ckList").querySelectorAll(".ck-sub").forEach(sp => {
     const gis = (sp.dataset.g || "").split(",").filter(Boolean).map(Number);
