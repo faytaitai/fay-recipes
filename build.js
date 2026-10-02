@@ -53,6 +53,14 @@ const abs = (ctx, p) => {
   return /^https?:\/\//.test(s) ? s : SITE_URL + s.replace(/^\/+/, "");
 };
 
+/* 分享預覽圖：有 make-share-images.js 畫的橫式圖（media/og-<id>.jpg、media/og-post-<id>.jpg）就優先用，
+   沒有才退回直式封面（聊天軟體會把它裁成橫的）。 */
+function shareImage(ctx, rel, cover){
+  const has = fs.existsSync(path.join(ROOT, rel));
+  return { url: has ? SITE_URL + rel : abs(ctx, cover), landscape: has };
+}
+const ogSize = landscape => landscape ? `<meta property="og:image:width" content="1200">\n<meta property="og:image:height" content="630">\n` : "";
+
 /* ---------- 步驟／小技巧的 "## 分組標題" 轉成 schema.org 的 HowToSection ---------- */
 function stepsForSchema(steps){
   const isHead = x => typeof x === "string" && x.startsWith("## ");
@@ -80,7 +88,7 @@ function recipeJSONLD(ctx, r){
     "@type": "Recipe",
     name: r.料理名稱,
     description: r.介紹 || r.料理名稱,
-    image: [abs(ctx, r.封面圖)].filter(Boolean),
+    image: [abs(ctx, r.封面圖), shareImage(ctx, `media/og-${r.id}.jpg`, r.封面圖).landscape ? SITE_URL + `media/og-${r.id}.jpg` : ""].filter(Boolean),
     author: { "@type": "Person", name: "Fay" },
     datePublished: r.發布日期,
     recipeCategory: r.分類 || undefined,
@@ -108,7 +116,8 @@ function pageHTML(ctx, r, others){
   const title = `${esc(ctx.__SITE.短名)}｜${esc(r.料理名稱)}`;
   const desc = esc(r.介紹 || r.料理名稱);
   const url = SITE_URL + `recipe-${r.id}.html`;
-  const img = abs(ctx, r.封面圖);
+  const share = shareImage(ctx, `media/og-${r.id}.jpg`, r.封面圖);
+  const img = share.url;
   return `<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -121,7 +130,7 @@ function pageHTML(ctx, r, others){
 <meta property="og:title" content="${title}">
 <meta property="og:description" content="${desc}">
 <meta property="og:url" content="${url}">
-${img ? `<meta property="og:image" content="${img}">\n` : ""}<meta property="og:site_name" content="${esc(ctx.__SITE.名稱)}">
+${img ? `<meta property="og:image" content="${img}">\n` : ""}${img ? ogSize(share.landscape) : ""}<meta property="og:site_name" content="${esc(ctx.__SITE.名稱)}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${title}">
 <meta name="twitter:description" content="${desc}">
@@ -166,7 +175,7 @@ function postJSONLD(ctx, p){
     "@type": "Article",
     headline: p.標題,
     description: p.摘要 || p.標題,
-    image: [abs(ctx, p.封面圖)].filter(Boolean),
+    image: [abs(ctx, p.封面圖), shareImage(ctx, `media/og-post-${p.id}.jpg`, p.封面圖).landscape ? SITE_URL + `media/og-post-${p.id}.jpg` : ""].filter(Boolean),
     author: { "@type": "Person", name: "Fay" },
     datePublished: p.發布日期,
     dateModified: p.發布日期,
@@ -180,7 +189,8 @@ function postPageHTML(ctx, p){
   const title = `${esc(ctx.__SITE.短名)}｜${esc(p.標題)}`;
   const desc = esc(p.摘要 || p.標題);
   const url = SITE_URL + `post-${p.id}.html`;
-  const img = abs(ctx, p.封面圖);
+  const share = shareImage(ctx, `media/og-post-${p.id}.jpg`, p.封面圖);
+  const img = share.url;
   return `<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -193,7 +203,7 @@ function postPageHTML(ctx, p){
 <meta property="og:title" content="${title}">
 <meta property="og:description" content="${desc}">
 <meta property="og:url" content="${url}">
-${img ? `<meta property="og:image" content="${img}">\n` : ""}<meta property="og:site_name" content="${esc(ctx.__SITE.名稱)}">
+${img ? `<meta property="og:image" content="${img}">\n` : ""}${img ? ogSize(share.landscape) : ""}<meta property="og:site_name" content="${esc(ctx.__SITE.名稱)}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${title}">
 <meta name="twitter:description" content="${desc}">
