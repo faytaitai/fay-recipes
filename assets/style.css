@@ -243,6 +243,7 @@ body.nav-open .logo{opacity:0;pointer-events:none;}
      margin-bottom:var(--間距-鬆);}
 .stp:last-child{margin-bottom:0;}
 .stp .sn{color:var(--強調色);flex-shrink:0;font-weight:var(--次標字重);}
+.stp-note{display:block;font-size:12.5px;line-height:1.7;color:var(--淡文字);margin-top:3px;}
 .tipbox{background:var(--區塊底色);padding:16px 18px;font-size:13px;color:var(--次要文字);
         line-height:1.95;border-radius:var(--圓角);}
 .tipbox p + p{margin-top:var(--間距-緊);}

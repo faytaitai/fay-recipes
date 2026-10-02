@@ -63,7 +63,7 @@ function stepsForSchema(steps){
       currentGroup = { "@type": "HowToSection", name: x.slice(3).trim(), itemListElement: [] };
       flat.push(currentGroup);
     } else {
-      const step = { "@type": "HowToStep", text: x };
+      const step = { "@type": "HowToStep", text: x.replace("｜", " ") };
       (currentGroup ? currentGroup.itemListElement : flat).push(step);
     }
   });

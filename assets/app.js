@@ -28,10 +28,13 @@ function mediaURL(p){
 /* 一支影片有多份食譜時：食材用 { 分組: "名稱" }，步驟／小技巧用 "## 名稱" 開頭的一行當小標題 */
 const isHead = x => typeof x === "string" && x.startsWith("## ");
 const headText = x => x.slice(3).trim();
-const stepsHTML = steps => { let n = 0; return (steps || []).map(x => isHead(x)
-  ? (n = 0, `<div class="grp">${esc(headText(x))}</div>`)
-  : `<div class="stp"><span class="sn">${++n}</span><span>${esc(x)}</span></div>`).join(""); };
-const stepsText = steps => { let n = 0; return (steps || []).map(x => isHead(x) ? (n = 0, `\n【${headText(x)}】`) : `${++n}. ${x}`).join("\n"); };
+/* 步驟後面可以用全形「｜」接一句備註（小字顯示），例如 "放入氣炸鍋，加一根百里香。｜也可以撒百里香香料粉。" */
+const splitNote = x => { const k = String(x).indexOf("｜"); return k < 0 ? { main: String(x), note: "" } : { main: x.slice(0, k).trim(), note: x.slice(k + 1).trim() }; };
+const stepsHTML = steps => { let n = 0; return (steps || []).map(x => { if (isHead(x)) { n = 0; return `<div class="grp">${esc(headText(x))}</div>`; }
+  const { main, note } = splitNote(x);
+  return `<div class="stp"><span class="sn">${++n}</span><span>${esc(main)}${note ? `<span class="stp-note">${esc(note)}</span>` : ""}</span></div>`; }).join(""); };
+const stepsText = steps => { let n = 0; return (steps || []).map(x => { if (isHead(x)) { n = 0; return `\n【${headText(x)}】`; }
+  const { main, note } = splitNote(x); return `${++n}. ${main}${note ? `（${note}）` : ""}`; }).join("\n"); };
 const tipsHTML = t => tipLines(t).map(x => isHead(x) ? `<div class="grp">${esc(headText(x))}</div>` : `<p>${esc(x)}</p>`).join("");
 const tipsText = t => tipLines(t).map(x => isHead(x) ? `\n【${headText(x)}】` : "・" + x).join("\n");
 const tipLines = t => String(t || "").split(/　|\n/).map(x => x.trim()).filter(Boolean);
@@ -435,10 +438,11 @@ function bindCookMode(r){
     else {
       const subs = matchable.filter(gi => x.includes(groups[gi].name) && !shown.has(gi));
       subs.forEach(gi => shown.add(gi));
-      items.push({ text: x, num: ++n, idx: total++, subs });
+      const { main, note } = splitNote(x);
+      items.push({ text: main, note, num: ++n, idx: total++, subs });
     }
   });
-  const fillSubs = () => el("ckList").querySelectorAll(".ck-sub").forEach(sp => {
+  const fillSubs = () => el("ckList").querySelectorAll(".ck-sub[data-g]").forEach(sp => {
     const gis = (sp.dataset.g || "").split(",").filter(Boolean).map(Number);
     sp.innerHTML = gis.map(gi => groups[gi].items.map(i => `<span class="ck-it">${esc(`${i.名稱} ${換算份量(i.份量, QTY.倍數, QTY.公制)}`.trim())}</span>`).join("、")).join("；");
   });
@@ -452,7 +456,7 @@ function bindCookMode(r){
   el("ckList").innerHTML = items.map(it => it.head
     ? `<div class="ck-head">${esc(it.head)}</div>`
     : `<button type="button" class="ck-step" data-i="${it.idx}">
-         <span class="ck-n">${it.num}</span><span class="ck-t"><span class="ck-main">${esc(it.text)}</span><span class="ck-sub" data-g="${it.subs.join(",")}"></span></span><span class="ck-ok"></span>
+         <span class="ck-n">${it.num}</span><span class="ck-t"><span class="ck-main">${esc(it.text)}</span>${it.note ? `<span class="ck-sub ck-note">${esc(it.note)}</span>` : ""}<span class="ck-sub" data-g="${it.subs.join(",")}"></span></span><span class="ck-ok"></span>
        </button>`).join("");
   const cards = [...el("ckList").querySelectorAll(".ck-step")];
 
