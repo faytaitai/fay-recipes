@@ -173,25 +173,19 @@
     <div class="cm" id="ck" hidden>
       <div class="cm-top">
         <div class="cm-count" id="ckCount"></div>
-        <div class="cm-progress"><b id="ckBar"></b></div>
+        <button class="cm-reset" id="ckReset">全部重來</button>
         <button class="cm-close" id="ckClose" aria-label="關閉烹飪模式">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 4l16 16M20 4L4 20"/></svg>
         </button>
       </div>
-      <div class="cm-group" id="ckGroup"></div>
-      <div class="cm-body">
-        <div class="cm-num" id="ckNum"></div>
-        <div class="cm-text" id="ckText"></div>
-        <button class="cm-ing-chip" id="ckIngBtn">看材料</button>
-      </div>
+      <div class="cm-progress"><b id="ckBar"></b></div>
+      <div class="cm-list" id="ckList"></div>
       <div class="cm-bottom">
-        <button class="cm-prev" id="ckPrev" aria-label="上一步">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
-        </button>
-        <button class="cm-next" id="ckNext">下一步</button>
+        <button class="cm-ing-btn" id="ckIngBtn">看材料</button>
       </div>
+      <div class="cm-backdrop" id="ckBackdrop"></div>
       <div class="cm-ing-panel" id="ckIngPanel">
-        <h4>材 料</h4>
+        <div class="cm-ing-head"><h4>材 料</h4><button class="cm-ing-close" id="ckIngClose">收起 ✕</button></div>
         <div id="ckIngList"></div>
       </div>
     </div></div>
