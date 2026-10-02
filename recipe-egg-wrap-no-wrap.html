@@ -108,6 +108,10 @@
         <div class="rd-sec">
           <div class="fl">作 法</div>
           <div class="stp"><span class="sn">1</span><span>鍋子最小火，加一點油，撒上起司碎。</span></div><div class="stp"><span class="sn">2</span><span>鍋內淋上打散的蛋液。</span></div><div class="stp"><span class="sn">3</span><span>蓋上鍋蓋悶一下。</span></div><div class="stp"><span class="sn">4</span><span>放上番茄片、火腿、生菜。</span></div><div class="stp"><span class="sn">5</span><span>對折，完成！</span></div>
+          <button class="ckbtn" id="ckOpen">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+            開始烹飪模式
+          </button>
         </div>
         <div class="rd-sec"><div class="fl">小 技 巧</div>
           <div class="tipbox"><p>最後淋上的辣蜂蜜，甜辣交疊的味道不會覺得在吃無聊的減肥餐！</p><p>這個蛋餅皮裡面的餡，記得要選可以生吃或者微加熱就可以吃的食材，免得蛋皮焦了但餡料還沒熟喔！</p><p>另外也可以考慮加入洋蔥絲、紅蘿蔔絲、高麗菜絲等。</p></div></div>
@@ -141,7 +145,32 @@
     </div>
     <h3>卵巾著煮</h3>
     <div class="ex">油豆皮包蛋，用高湯煮到入味，記得連醬汁一起吃。</div>
-  </a></div></div>
+  </a></div>
+    <div class="cm" id="ck" hidden>
+      <div class="cm-top">
+        <div class="cm-count" id="ckCount"></div>
+        <div class="cm-progress"><b id="ckBar"></b></div>
+        <button class="cm-close" id="ckClose" aria-label="關閉烹飪模式">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 4l16 16M20 4L4 20"/></svg>
+        </button>
+      </div>
+      <div class="cm-group" id="ckGroup"></div>
+      <div class="cm-body">
+        <div class="cm-num" id="ckNum"></div>
+        <div class="cm-text" id="ckText"></div>
+        <button class="cm-ing-chip" id="ckIngBtn">看材料</button>
+      </div>
+      <div class="cm-bottom">
+        <button class="cm-prev" id="ckPrev" aria-label="上一步">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <button class="cm-next" id="ckNext">下一步</button>
+      </div>
+      <div class="cm-ing-panel" id="ckIngPanel">
+        <h4>材 料</h4>
+        <div id="ckIngList"></div>
+      </div>
+    </div></div>
 <footer><div class="wrap" id="footer"></div></footer>
 <script src="assets/data.js"></script>
 <script src="assets/app.js"></script>

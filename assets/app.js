@@ -377,6 +377,10 @@ function recipeHTML(r, others){
         <div class="rd-sec">
           <div class="fl">作 法</div>
           ${stepsHTML(r.步驟)}
+          <button class="ckbtn" id="ckOpen">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+            開始烹飪模式
+          </button>
         </div>
         ${r.小技巧 ? `<div class="rd-sec"><div class="fl">小 技 巧</div>
           <div class="tipbox">${tipsHTML(r.小技巧)}</div></div>` : ""}
@@ -390,7 +394,71 @@ function recipeHTML(r, others){
     ${groupBuyCard()}
     <div id="vote"></div>
     ${others.length ? `<div class="phead" style="padding-top:var(--間距-大段);"><h1>其他食譜</h1></div>
-    <div class="grid">${others.map(cardHTML).join("")}</div>` : ""}`;
+    <div class="grid">${others.map(cardHTML).join("")}</div>` : ""}
+    <div class="cm" id="ck" hidden>
+      <div class="cm-top">
+        <div class="cm-count" id="ckCount"></div>
+        <div class="cm-progress"><b id="ckBar"></b></div>
+        <button class="cm-close" id="ckClose" aria-label="關閉烹飪模式">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 4l16 16M20 4L4 20"/></svg>
+        </button>
+      </div>
+      <div class="cm-group" id="ckGroup"></div>
+      <div class="cm-body">
+        <div class="cm-num" id="ckNum"></div>
+        <div class="cm-text" id="ckText"></div>
+        <button class="cm-ing-chip" id="ckIngBtn">看材料</button>
+      </div>
+      <div class="cm-bottom">
+        <button class="cm-prev" id="ckPrev" aria-label="上一步">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <button class="cm-next" id="ckNext">下一步</button>
+      </div>
+      <div class="cm-ing-panel" id="ckIngPanel">
+        <h4>材 料</h4>
+        <div id="ckIngList"></div>
+      </div>
+    </div>`;
+}
+
+/* ---------- 烹飪模式：一次一步、大字、全螢幕，並嘗試防止螢幕自動鎖定 ---------- */
+function bindCookMode(r){
+  const el = id => document.getElementById(id);
+  const steps = []; let curGroup = null;
+  (r.步驟 || []).forEach(x => isHead(x) ? (curGroup = headText(x)) : steps.push({ group: curGroup, text: x }));
+  if (!steps.length) { el("ckOpen") && (el("ckOpen").style.display = "none"); return; }
+  let i = 0, wakeLock = null;
+  async function keepAwake(){
+    try { if ("wakeLock" in navigator) wakeLock = await navigator.wakeLock.request("screen"); } catch (e) {}
+  }
+  function releaseAwake(){ try { wakeLock && wakeLock.release(); } catch (e) {} wakeLock = null; }
+  /* 從背景分頁切回來時，喚醒鎖會被系統釋放，烹飪模式還開著就重新申請 */
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible" && !el("ck").hidden) keepAwake();
+  });
+  function render(){
+    const s = steps[i];
+    el("ckNum").textContent = "STEP " + (i + 1);
+    el("ckText").textContent = s.text;
+    el("ckCount").textContent = `步驟 ${i + 1} / ${steps.length}`;
+    el("ckBar").style.width = ((i + 1) / steps.length * 100) + "%";
+    el("ckGroup").textContent = s.group || "";
+    el("ckPrev").disabled = i === 0;
+    const last = i === steps.length - 1;
+    el("ckNext").textContent = last ? "完成 ✓" : "下一步";
+    el("ckNext").classList.toggle("done", last);
+  }
+  el("ckOpen").onclick = () => { el("ck").hidden = false; i = 0; render(); keepAwake(); };
+  el("ckClose").onclick = () => { el("ck").hidden = true; releaseAwake(); };
+  el("ckPrev").onclick = () => { if (i > 0) { i--; render(); } };
+  el("ckNext").onclick = () => {
+    if (i < steps.length - 1) { i++; render(); } else { el("ck").hidden = true; releaseAwake(); }
+  };
+  el("ckIngBtn").onclick = () => {
+    el("ckIngList").innerHTML = ingListHTML(r, QTY.倍數, QTY.公制);
+    el("ckIngPanel").classList.toggle("open");
+  };
 }
 /* 靜態頁檔名 recipe-<id>.html：從網址路徑抓 id；沒有就退回舊式 recipe.html?id= */
 const pathId = () => (String(location.pathname).match(/recipe-([a-z0-9-]+)\.html$/) || [])[1] || null;
@@ -409,6 +477,7 @@ function renderRecipe(){
   bindQty(r);
   bindCopy(r);
   bindShare(`${SITE.短名}｜${r.料理名稱}`);
+  bindCookMode(r);
   stopYTEndScreen();
   renderVote("vote");
 }

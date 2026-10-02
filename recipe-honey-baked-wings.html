@@ -134,6 +134,10 @@
         <div class="rd-sec">
           <div class="fl">作 法</div>
           <div class="grp">備料</div><div class="stp"><span class="sn">1</span><span>洗淨後的雞翅用廚房紙巾擦乾。</span></div><div class="stp"><span class="sn">2</span><span>雞翅兩面均勻抹鹽，放入冰箱靜置至少20分鐘。</span></div><div class="stp"><span class="sn">3</span><span>檸檬半顆擠汁，半顆切片當裝飾用。</span></div><div class="stp"><span class="sn">4</span><span>將調味料A全部混合均勻。</span></div><div class="stp"><span class="sn">5</span><span>把雞翅加入調味料A抓勻。</span></div><div class="grp">氣炸雞翅</div><div class="stp"><span class="sn">1</span><span>醃好的雞翅放入氣炸鍋，加一根百里香。</span></div><div class="stp"><span class="sn">2</span><span>180°C 氣炸15分鐘，氣炸到一半時翻面。</span></div><div class="stp"><span class="sn">3</span><span>15分鐘後，再用190或200°C氣炸2分鐘上色（可以視你家氣炸鍋的火力決定要190還是200度，主要是要避免烤焦）。</span></div>
+          <button class="ckbtn" id="ckOpen">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+            開始烹飪模式
+          </button>
         </div>
         <div class="rd-sec"><div class="fl">小 技 巧</div>
           <div class="tipbox"><p>醬汁裡面有蜂蜜跟醬油，所以氣炸的溫度不能太高，不然很容易外面先焦掉。</p><p>這個醬汁的主角是蜂蜜跟檸檬，所以醬油不用多，只是用它來加一點鮮味。</p><p>這道料理也可以用烤箱烤，只需要用耐熱的容器把雞翅跟醬汁放在一起，送進烤箱就搞定了。</p></div></div>
@@ -167,7 +171,32 @@
     </div>
     <h3>卵巾著煮</h3>
     <div class="ex">油豆皮包蛋，用高湯煮到入味，記得連醬汁一起吃。</div>
-  </a></div></div>
+  </a></div>
+    <div class="cm" id="ck" hidden>
+      <div class="cm-top">
+        <div class="cm-count" id="ckCount"></div>
+        <div class="cm-progress"><b id="ckBar"></b></div>
+        <button class="cm-close" id="ckClose" aria-label="關閉烹飪模式">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 4l16 16M20 4L4 20"/></svg>
+        </button>
+      </div>
+      <div class="cm-group" id="ckGroup"></div>
+      <div class="cm-body">
+        <div class="cm-num" id="ckNum"></div>
+        <div class="cm-text" id="ckText"></div>
+        <button class="cm-ing-chip" id="ckIngBtn">看材料</button>
+      </div>
+      <div class="cm-bottom">
+        <button class="cm-prev" id="ckPrev" aria-label="上一步">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <button class="cm-next" id="ckNext">下一步</button>
+      </div>
+      <div class="cm-ing-panel" id="ckIngPanel">
+        <h4>材 料</h4>
+        <div id="ckIngList"></div>
+      </div>
+    </div></div>
 <footer><div class="wrap" id="footer"></div></footer>
 <script src="assets/data.js"></script>
 <script src="assets/app.js"></script>

@@ -132,6 +132,10 @@
         <div class="rd-sec">
           <div class="fl">作 法</div>
           <div class="grp">鮪魚酸黃瓜醬</div><div class="stp"><span class="sn">1</span><span>鮪魚、希臘優格、酸黃瓜放入碗中拌勻。</span></div><div class="stp"><span class="sn">2</span><span>加鹽、黑胡椒調味。</span></div><div class="stp"><span class="sn">3</span><span>加蜂蜜，可依優格的酸度邊試邊加。</span></div><div class="grp">燕麥鬆餅</div><div class="stp"><span class="sn">1</span><span>鬆餅機預熱。</span></div><div class="stp"><span class="sn">2</span><span>Cottage cheese、蛋、燕麥片、泡打粉放入調理機，打到滑順。</span></div><div class="stp"><span class="sn">3</span><span>鬆餅機抹一般食用油，倒入約60ml麵糊。</span></div><div class="stp"><span class="sn">4</span><span>蓋起來烤到金黃酥脆（約3～5分鐘）。</span></div>
+          <button class="ckbtn" id="ckOpen">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+            開始烹飪模式
+          </button>
         </div>
         <div class="rd-sec"><div class="fl">小 技 巧</div>
           <div class="tipbox"><div class="grp">鮪魚酸黃瓜醬</div><p>優格份量可以稍微多一點，做出來的口感更接近麥當勞的塔塔醬。</p><div class="grp">燕麥鬆餅</div><p>買不到 cottage cheese 的話，可以用無糖希臘優格等量替代（份量一樣），但燕麥要從 240ml 增加到 300～360ml。</p><p>調理機打好之後，先靜置 5 分鐘讓燕麥吸水再看稠度，太稠的話再補一點優格調整，太稀可加燕麥。</p><p>Cottage cheese 本身有鹹度，但希臘優格幾乎沒有味道，可以自己斟酌在麵糊裡調味。</p></div></div>
@@ -165,7 +169,32 @@
     </div>
     <h3>卵巾著煮</h3>
     <div class="ex">油豆皮包蛋，用高湯煮到入味，記得連醬汁一起吃。</div>
-  </a></div></div>
+  </a></div>
+    <div class="cm" id="ck" hidden>
+      <div class="cm-top">
+        <div class="cm-count" id="ckCount"></div>
+        <div class="cm-progress"><b id="ckBar"></b></div>
+        <button class="cm-close" id="ckClose" aria-label="關閉烹飪模式">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 4l16 16M20 4L4 20"/></svg>
+        </button>
+      </div>
+      <div class="cm-group" id="ckGroup"></div>
+      <div class="cm-body">
+        <div class="cm-num" id="ckNum"></div>
+        <div class="cm-text" id="ckText"></div>
+        <button class="cm-ing-chip" id="ckIngBtn">看材料</button>
+      </div>
+      <div class="cm-bottom">
+        <button class="cm-prev" id="ckPrev" aria-label="上一步">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <button class="cm-next" id="ckNext">下一步</button>
+      </div>
+      <div class="cm-ing-panel" id="ckIngPanel">
+        <h4>材 料</h4>
+        <div id="ckIngList"></div>
+      </div>
+    </div></div>
 <footer><div class="wrap" id="footer"></div></footer>
 <script src="assets/data.js"></script>
 <script src="assets/app.js"></script>
