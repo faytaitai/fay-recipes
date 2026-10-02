@@ -378,7 +378,7 @@ function recipeHTML(r, others){
           <div class="fl">作 法</div>
           ${stepsHTML(r.步驟)}
           <button class="ckbtn" id="ckOpen">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16v5a3.5 3.5 0 0 1-3.5 3.5h-9A3.5 3.5 0 0 1 4 17z"/><path d="M2 12h20"/><path d="M8 8c0-1.6 1.2-1.6 1.2-3.2M12 8c0-1.6 1.2-1.6 1.2-3.2M16 8c0-1.6 1.2-1.6 1.2-3.2"/></svg>
             開始烹飪模式
           </button>
         </div>
@@ -398,7 +398,7 @@ function recipeHTML(r, others){
     <div class="cm" id="ck" hidden>
       <div class="cm-top">
         <div class="cm-count" id="ckCount"></div>
-        <button class="cm-reset" id="ckReset">全部重來</button>
+        <button class="cm-reset" id="ckReset">清除打勾</button>
         <button class="cm-close" id="ckClose" aria-label="關閉烹飪模式">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 4l16 16M20 4L4 20"/></svg>
         </button>
@@ -410,7 +410,7 @@ function recipeHTML(r, others){
       </div>
       <div class="cm-backdrop" id="ckBackdrop"></div>
       <div class="cm-ing-panel" id="ckIngPanel">
-        <div class="cm-ing-head"><h4>材 料</h4><button class="cm-ing-close" id="ckIngClose">收起 ✕</button></div>
+        <div class="cm-ing-head"><h4>材 料</h4><button class="cm-ing-close" id="ckIngClose" aria-label="收起材料"><span>收起</span><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 4l16 16M20 4L4 20"/></svg></i></button></div>
         <div id="ckIngList"></div>
       </div>
     </div>`;
@@ -467,19 +467,34 @@ function bindCookMode(r){
     if (document.visibilityState === "visible" && !el("ck").hidden) keepAwake();
   });
 
-  const ingOpen = on => {
-    if (on) el("ckIngList").innerHTML = ingListHTML(r, QTY.倍數, QTY.公制);
-    el("ckIngPanel").classList.toggle("open", on);
-    el("ckBackdrop").classList.toggle("open", on);
+  /* 開關都記進瀏覽器歷史：手機的「返回」手勢／按鍵只會關掉烹飪模式（或材料面板），
+     不會跳回食譜列表。level：0 關閉、1 烹飪模式、2 烹飪模式＋材料面板。 */
+  let level = 0;
+  try { if (history.state && history.state.ck) history.replaceState(null, "", location.pathname + location.search); } catch (e) {}
+  const apply = lv => {
+    const wasOpen = !el("ck").hidden;
+    el("ck").hidden = lv < 1;
+    const ing = lv >= 2;
+    if (ing) el("ckIngList").innerHTML = ingListHTML(r, QTY.倍數, QTY.公制);
+    el("ckIngPanel").classList.toggle("open", ing);
+    el("ckBackdrop").classList.toggle("open", ing);
+    if (lv >= 1 && !wasOpen) { paint(false); keepAwake(); setTimeout(() => paint(true), 60); }
+    if (lv < 1) releaseAwake();
+    level = lv;
   };
-  const close = () => { ingOpen(false); el("ck").hidden = true; releaseAwake(); };
+  const forward = lv => { try { history.pushState({ ck: lv }, ""); } catch (e) {} apply(lv); };
+  const backBy = n => {
+    if (n < 1) return;
+    if (history.state && history.state.ck) history.go(-n); else apply(Math.max(0, level - n));
+  };
+  window.addEventListener("popstate", () => apply((history.state && history.state.ck) || 0));
 
-  el("ckOpen").onclick = () => { el("ck").hidden = false; paint(false); keepAwake(); setTimeout(() => paint(true), 60); };
-  el("ckClose").onclick = close;
+  el("ckOpen").onclick = () => forward(1);
+  el("ckClose").onclick = () => backBy(level);
   el("ckReset").onclick = () => { done.clear(); save(); paint(false); el("ckList").scrollTo({ top: 0, behavior: "smooth" }); };
-  el("ckIngBtn").onclick = () => done.size === total ? close() : ingOpen(true);
-  el("ckIngClose").onclick = () => ingOpen(false);
-  el("ckBackdrop").onclick = () => ingOpen(false);
+  el("ckIngBtn").onclick = () => done.size === total ? backBy(level) : forward(2);
+  el("ckIngClose").onclick = () => backBy(1);
+  el("ckBackdrop").onclick = () => backBy(1);
 }
 
 /* 靜態頁檔名 recipe-<id>.html：從網址路徑抓 id；沒有就退回舊式 recipe.html?id= */
