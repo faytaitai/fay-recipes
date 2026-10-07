@@ -424,29 +424,35 @@ function recipeHTML(r, others){
 /* ---------- 烹飪模式：整份步驟清單，點整張卡片打勾，目前這一步自動放大；並嘗試防止螢幕鎖定 ---------- */
 function bindCookMode(r){
   const el = id => document.getElementById(id);
-  /* 食材分組（醃料、調味料A…）：步驟文字提到組名時，在那一步下面用小字列出該組食材。
-     「材料」「食材」這種泛稱組名不比對，避免每一步都亂跳出來。 */
-  const groups = []; let gCur = null;
+  /* 步驟下面的小字食材清單（份量隨 ×2／公制切換）。兩種來源，每個步驟合併成一串：
+     1) 食材分組：步驟文字提到組名（醃料、調味料A…）→ 列出整組；「材料」「食材」這種泛稱組名不比對。
+     2) 單項食材：步驟文字提到食材名稱 → 列出那一項。名稱去掉括號、以「／」拆開（至少 2 個字）後比對；
+        步驟裡的寫法跟材料名稱不同時，在食材上加 提到: ["別稱", …]（單字像「水」「蛋」也靠它）。
+     每項食材只在「第一次被提到」的那一步列出，後面的步驟不重複。 */
+  const flat = [], groups = []; let gCur = null;
   (r.食材 || []).forEach(i => {
-    if (i.分組) { gCur = { name: i.分組, items: [] }; groups.push(gCur); }
-    else if (gCur) gCur.items.push(i);
+    if (i.分組) { gCur = { name: i.分組, idxs: [] }; groups.push(gCur); }
+    else { flat.push(i); if (gCur) gCur.idxs.push(flat.length - 1); }
   });
-  const matchable = groups.map((g, gi) => gi).filter(gi => !/^(食材|材料)$/.test(groups[gi].name));
-  /* 同一組食材只在「第一次被提到」的那一步列出，後面的步驟不重複 */
-  const shown = new Set();
+  const baseNames = n => String(n).replace(/（[^）]*）/g, "").split(/[／\/]/).map(x => x.trim()).filter(x => x.length >= 2);
+  const tokens = flat.map(i => [...baseNames(i.名稱), ...(i.提到 || [])]);
+  const generic = /^(食材|材料)$/;
+  const shownIng = new Set();
   const items = []; let n = 0, total = 0;
   (r.步驟 || []).forEach(x => {
     if (isHead(x)) { items.push({ head: headText(x) }); n = 0; }
     else {
-      const subs = matchable.filter(gi => x.includes(groups[gi].name) && !shown.has(gi));
-      subs.forEach(gi => shown.add(gi));
       const { main, note } = splitNote(x);
-      items.push({ text: main, note, num: ++n, idx: total++, subs });
+      const hit = [];
+      groups.forEach(g => { if (!generic.test(g.name) && x.includes(g.name)) g.idxs.forEach(k => { if (!shownIng.has(k) && !hit.includes(k)) hit.push(k); }); });
+      flat.forEach((_, k) => { if (!shownIng.has(k) && !hit.includes(k) && tokens[k].some(t => main.includes(t))) hit.push(k); });
+      hit.sort((p, q) => p - q).forEach(k => shownIng.add(k));
+      items.push({ text: main, note, num: ++n, idx: total++, subs: hit });
     }
   });
-  const fillSubs = () => el("ckList").querySelectorAll(".ck-sub[data-g]").forEach(sp => {
-    const gis = (sp.dataset.g || "").split(",").filter(Boolean).map(Number);
-    sp.innerHTML = gis.map(gi => groups[gi].items.map(i => `<span class="ck-it">${esc(`${i.名稱} ${換算份量(i.份量, QTY.倍數, QTY.公制)}`.trim())}</span>`).join("、")).join("；");
+  const fillSubs = () => el("ckList").querySelectorAll(".ck-sub[data-ing]").forEach(sp => {
+    const ks = (sp.dataset.ing || "").split(",").filter(Boolean).map(Number);
+    sp.innerHTML = ks.map(k => `<span class="ck-it">${esc(`${flat[k].名稱} ${換算份量(flat[k].份量, QTY.倍數, QTY.公制)}`.trim())}</span>`).join("、");
   });
   if (!total) { el("ckOpen") && (el("ckOpen").style.display = "none"); return; }
 
@@ -458,7 +464,7 @@ function bindCookMode(r){
   el("ckList").innerHTML = items.map(it => it.head
     ? `<div class="ck-head">${esc(it.head)}</div>`
     : `<button type="button" class="ck-step" data-i="${it.idx}">
-         <span class="ck-n">${it.num}</span><span class="ck-t"><span class="ck-main">${esc(it.text)}</span>${it.note ? `<span class="ck-sub ck-note">${esc(it.note)}</span>` : ""}<span class="ck-sub" data-g="${it.subs.join(",")}"></span></span><span class="ck-ok"></span>
+         <span class="ck-n">${it.num}</span><span class="ck-t"><span class="ck-main">${esc(it.text)}</span>${it.note ? `<span class="ck-sub ck-note">${esc(it.note)}</span>` : ""}<span class="ck-sub" data-ing="${it.subs.join(",")}"></span></span><span class="ck-ok"></span>
        </button>`).join("");
   const cards = [...el("ckList").querySelectorAll(".ck-step")];
 
