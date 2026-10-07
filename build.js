@@ -97,7 +97,7 @@ function recipeJSONLD(ctx, r){
     recipeInstructions: stepsForSchema(r.步驟),
   };
   if (r.份量) json.recipeYield = r.份量;
-  if (r.料理時間) json.totalTime = `PT${r.料理時間}M`;
+  if (r.料理時間) json.cookTime = `PT${r.料理時間}M`;
   if (r.影片網址) {
     json.video = {
       "@type": "VideoObject",

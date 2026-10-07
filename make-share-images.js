@@ -42,7 +42,7 @@ function html(r, coverPath){
   /* 可用寬度約 564px，每個字另有 1px 字距，所以多留一點餘裕；每行都不准再自己換行（太長的名字才放行） */
   const size = Math.max(50, Math.min(88, Math.floor(560 / longest) - 2));
   const nameHTML = lines.map(x => longest <= 11 ? `<span style="white-space:nowrap">${esc(x)}</span>` : esc(x)).join("<br>");
-  const meta = [r.料理時間 ? `${r.料理時間}分鐘` : "", ...(r.料理工具 || [])].filter(Boolean).join("・");
+  const meta = [r.時間標示 || (r.料理時間 ? `${r.料理時間}分鐘` : ""), ...(r.料理工具 || [])].filter(Boolean).join("・");
   return `<!doctype html><html><head><meta charset="utf-8">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
 <style>

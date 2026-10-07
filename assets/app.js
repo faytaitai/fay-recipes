@@ -9,6 +9,8 @@ const byDate = (a, b) => ((a.排序 ?? 999) - (b.排序 ?? 999)) || String(b.發
 const PER_PAGE = 12;
 
 /* 每道菜的標籤 = 情境 + 工具（自動產生，dashboard 分類改了這裡就跟著變）*/
+/* 時間顯示：有填「時間標示」就用它（例如「每片3～5分鐘」），沒有就用「料理時間」＋分鐘 */
+const timeText = r => r.時間標示 || `${r.料理時間}分鐘`;
 const tagsOf = r => [...new Set([...(r.情境 || []), ...(r.料理工具 || [])])];
 
 /* ---------- 媒體來源 ----------
@@ -240,7 +242,7 @@ function cardHTML(r){
   return `<a class="card" href="recipe-${r.id}.html">
     <div class="card-media">
       <img class="ph" src="${img(r)}" alt="${esc(r.料理名稱)}" loading="lazy" onerror="this.style.opacity=.15">
-      <span class="m">${r.料理時間}分鐘・${esc((r.料理工具 || []).join("・"))}</span>
+      <span class="m">${esc(timeText(r))}・${esc((r.料理工具 || []).join("・"))}</span>
     </div>
     <h3>${esc(r.料理名稱)}</h3>
     <div class="ex">${esc(r.介紹 || "")}</div>
@@ -363,7 +365,7 @@ function recipeHTML(r, others){
         <div class="rd-head">
           <div class="head-row">
             ${r.系列 ? `<span class="series-tag">${esc(r.系列)}</span>` : ""}
-            <span class="meta-line"><span>${r.料理時間}分鐘</span>${r.份量 ? `<span id="servings">${esc(r.份量)}</span>` : ""}</span>
+            <span class="meta-line"><span>${esc(timeText(r))}</span>${r.份量 ? `<span id="servings">${esc(r.份量)}</span>` : ""}</span>
           </div>
           <h1 class="rd-title">${esc(r.料理名稱)}</h1>
           <div class="rd-desc">${esc(r.介紹 || "")}</div>
